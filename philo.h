@@ -29,4 +29,8 @@ typedef struct s_diner
 long	get_current_time(void);
 long	elapsed_time(long time);
 
+//input_validation.c
+int	check_arguments_valid(int argc, char **argv);
 
+//utils.c
+int	ft_atoi(char *str);

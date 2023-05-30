@@ -1,6 +1,9 @@
 NAME = philo
 
-SRC = 
+SRC = time.c //
+	parsing.c //
+	input_validation.c //
+	utils.c //
 
 HEADER = philo.h
 
