@@ -28,7 +28,7 @@ static int	check_all_digit(char **argv)
 }
 
 //checks if simulation can start with given time values for each state
-int     check_timing_possible(t_diner *diner)
+static int     check_timing_possible(t_diner *diner)
 {
         if (diner->number_of_philosophers < 1)
                 return (0);
@@ -52,5 +52,6 @@ int check_arguments_valid(t_diner *diner, int argc, char **argv)
 		printf("Operation is not possible with given input.\n");
 		return (0);
 	}
+	
 }
 

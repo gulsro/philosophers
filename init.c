@@ -52,3 +52,9 @@ void	init_arguments(t_diner *diner, int argc, char **argv)
 	if (argc == 6)
 		diner->must_eat = ft_atoi(argv[5]);
 }
+/*
+void	initialize(t_diner *diner)
+{
+	init_philos(diner);
+	init_mutexes(diner);
+}*/
