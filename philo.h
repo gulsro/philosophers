@@ -6,7 +6,7 @@
 
 typedef struct s_philo
 {
-	pthread_t philo;
+	pthread_t thread;
 	int	philo_id;
 	int	eaten_meals;
 	long	start_time;
@@ -21,8 +21,10 @@ typedef struct s_diner
 	int	time_to_die;
 	int	time_to_eat;
 	int	time_to_sleep;
-	pthread_mutex_t* fork;
-	t_philo	philo;
+	int	must_eat;
+	pthread_mutex_t *fork;
+	pthread_mutex_t *print
+	t_philo	*philo;
 }t_diner;
 
 //time.c
@@ -31,6 +33,10 @@ long	elapsed_time(long time);
 
 //input_validation.c
 int	check_arguments_valid(int argc, char **argv);
+int	check_diner_possible(t_diner *diner);
 
 //utils.c
 int	ft_atoi(char *str);
+
+//init.c
+void	init_args(t_diner *diner, int argc, char **argv);

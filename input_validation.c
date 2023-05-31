@@ -27,11 +27,35 @@ static int	check_all_digit(char **argv)
 	return (1);
 }
 
-//this funtion checks final input validation
-int check_arguments_valid(int argc, char **argv)
+//checks if simulation can start with given time values for each state
+int     check_timing_possible(t_diner *diner)
 {
-	if (argv != 5)
+        if (diner->number_of_philosophers < 1)
+                return (0);
+        if (diner->time_to_die < diner->time_to_eat || diner->time_to_die < diner->time_to_sleep)
+                return (0);
+}
+
+//this funtion checks final input validation
+int check_arguments_valid(t_diner *diner, int argc, char **argv)
+{
+	if (argc < 5 || argc > 6)
 		return (0);
 	if (check_all_digit(argv) == 0)
+        {
+                printf("One or more given arguments are in wrong format.");
 		return (0);
+	}
+	diner->number_of_philosophers = ft_atoi(argv[1]);
+	diner->time_to_die = ft_atoi(argv[2]);
+	diner->time_to_eat = ft_atoi(argv[3]);
+	diner->time_to_sleep = ft_atoi(argv[4]);
+	if (argc == 6)
+		diner->must_eat = ft_atoi(argv[5]);
+	if (check_timing_possible(diner) == 0)
+	{
+		printf("Operation is not possible with given input.\n");
+		return (0);
+	}
 }
+

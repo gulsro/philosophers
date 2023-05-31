@@ -7,13 +7,5 @@ int main(int argc, char **argv)
 	t_diner	*diner;
 	if (check_arguments_valid(argc, argv) == 0) //check error msgs
 		return (1);
-	philo = malloc(sizeof(t_philo));
-	if (!philo)
-		return (1);
-	diner = malloc(sizeof(t_diner));
-	if (!diner)
-	{
-		free(philo);
-		return (1);
-	}
+
 }

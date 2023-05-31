@@ -9,7 +9,7 @@ long	get_current_time(void)
 	return (time);
 }
 
-long	elapsed_time(long time)
+long	elapsed_time(long start_time)
 {
 	long	current;
 	long	elapsed_time;
