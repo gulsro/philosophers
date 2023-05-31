@@ -35,3 +35,5 @@ int check_arguments_valid(int argc, char **argv)
 	if (check_all_digit(argv) == 0)
 		return (0);
 }
+
+
