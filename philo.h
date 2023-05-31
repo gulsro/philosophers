@@ -23,7 +23,7 @@ typedef struct s_diner
 	int	time_to_sleep;
 	int	must_eat;
 	pthread_mutex_t *fork;
-	pthread_mutex_t *print
+	pthread_mutex_t *print;
 	t_philo	*philo;
 }t_diner;
 
@@ -39,4 +39,6 @@ int	check_diner_possible(t_diner *diner);
 int	ft_atoi(char *str);
 
 //init.c
-void	init_args(t_diner *diner, int argc, char **argv);
+void	init_arguments(t_diner *diner, int argc, char **argv);
+void    init_mutexes(s_diner *diner);
+void    init_philos(s_diner *diner);
