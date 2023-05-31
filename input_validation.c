@@ -54,4 +54,3 @@ int check_arguments_valid(t_diner *diner, int argc, char **argv)
 	}
 	
 }
-

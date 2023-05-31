@@ -1,0 +1,5 @@
+--add error msg if neccessary input was not given. (number_of_phlos of time_to_die)
+
+--maybe all error handling functions can be combined in a single function (?)
+
+--june 1, time schedule for tasks
