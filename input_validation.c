@@ -36,7 +36,7 @@ static int     check_timing_possible(t_diner *diner)
                 return (0);
 }
 
-//this funtion checks final input validation
+//this funtion checks final input validation, calls init_args()
 int check_arguments_valid(t_diner *diner, int argc, char **argv)
 {
 	if (argc < 5 || argc > 6)

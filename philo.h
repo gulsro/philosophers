@@ -6,13 +6,13 @@
 
 typedef struct s_philo
 {
-	pthread_t thread;
 	int	philo_id;
 	int	eaten_meals;
 	long	start_time;
 	long	last_meal_time;
 	int	left_fork_id;
 	int	right_fork_id;
+	int	dead;
 }t_philo;
 
 typedef struct s_diner
@@ -22,9 +22,11 @@ typedef struct s_diner
 	int	time_to_eat;
 	int	time_to_sleep;
 	int	must_eat;
-	pthread_mutex_t *fork;
+	pthread_t	*t_id;
+	pthread_t	*monitor;
+	pthread_mutex_t	*fork;
 	pthread_mutex_t *print;
-	t_philo	*philo;
+	t_philo		*philo;
 }t_diner;
 
 //time.c
