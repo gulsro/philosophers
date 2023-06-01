@@ -71,4 +71,5 @@ void	init_threads(t_diner *diner)
 		pthread_create(&diner->t_id[i], NULL, tasking, (void *)diner->philo[i]);
 	}
 	pthread_create(&monitor, NULL, monitoring, (void *)diner->philo);
+	pthread_join(monitor, NULL);
 }
