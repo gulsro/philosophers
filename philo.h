@@ -6,7 +6,7 @@
 
 typedef struct s_philo
 {
-	int	philo_id;
+	int	id;
 	int	eaten_meals;
 	long	start_time;
 	long	last_meal_time;

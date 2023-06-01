@@ -15,6 +15,6 @@ long	elapsed_time(long start_time)
 	long	elapsed_time;
 
 	current = get_current_time();
-	elapsed_time = current - time;
+	elapsed_time = current - start_time;
 	return (elapsed_time);
 }

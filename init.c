@@ -22,7 +22,7 @@ void	init_philos(s_diner *diner)
 		return (0);
 	while (i < diner->number_of_philosophers)
 	{
-		diner->philo[i]->philo_id = i + 1;
+		diner->philo[i]->id = i + 1;
 		diner->philo[i]->eaten_meals = 0;
 		diner->philo[i]->start_time = get_current_time();
 		diner->philo[i]->last_meal_time = diner->philo[i].start_time;
