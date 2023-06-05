@@ -10,13 +10,5 @@ int main(int argc, char **argv)
 		return (1);
 	if (check_arguments_valid(diner, argc, argv) == 0) //check error msgs
 		return (1);
-	init_philos(diner);
-	if (create_join_threads(diner) == 0)
-	{
-		//destroy threads, free
-	}
-	if (init_mutexes(diner) == 0)
-	{
-		//destroy mutex, free them
-	}
+	init_thread_mutex_philo(diner);
 }
