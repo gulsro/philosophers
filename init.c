@@ -11,7 +11,7 @@ void	init_arguments(t_diner *diner, int argc, char **argv)
 		diner->must_eat = ft_atoi(argv[5]);
 }
 
-// Initializes philo struct
+// Initializes philo struct --it will be called in main()
 void	init_philos(s_diner *diner)
 {
 	int	i;
@@ -34,8 +34,8 @@ void	init_philos(s_diner *diner)
 
 }
 
-// Initializes both print mutex and fork mutexes
-void	init_mutexes(s_diner *diner)
+// Initializes both print mutex and fork mutexes --it will be called in main()
+int	init_mutexes(s_diner *diner)
 {
 	int	i;
 
@@ -45,8 +45,12 @@ void	init_mutexes(s_diner *diner)
 		return (0);
 	while (i < diner->number_of_philosophers)
 	{
-		pthread_mutex_init(&diner->fork[i], NULL);
-		i++;
+		if (pthread_mutex_init(&diner->fork[i], NULL) != 0)
+		{
+			printf("pthread_mutex_init() is failed\n")
+			return (0);
+		}
+			i++;
 	}
 	diner->print = malloc(sizeof(pthread_mutex_t) * diner->number_of_philosophers);
 	if (!diner->print)
@@ -54,11 +58,16 @@ void	init_mutexes(s_diner *diner)
 		free(diner->fork);
 		return (0);
 	}
-	pthread_mutex_init(&diner->print, NULL);
+	if (pthread_mutex_init(&diner->print, NULL) != 0)
+	{
+		printf("pthread_mutex_init() is failed\n");
+		return (0);
+	}
+	return (1);
 }
 
-// Creates threads, philo's array and monitor (a seperated thread for monitoring others threads)
-void	init_threads(t_diner *diner)
+// Creates threads, philo's array and monitor (a seperated thread for monitoring others threads) --it will be called in main()
+int	create_join_threads(t_diner *diner)
 {
 	int	i;
 
@@ -69,10 +78,34 @@ void	init_threads(t_diner *diner)
 	while (i < diner->number_of_philosophers)
 	{
 		if (pthread_create(&diner->t_id[i], NULL, routine, (void *)diner->philo[i]) != 0)
-			printf()
+		{
+			printf("pthread_create() is failed\n");
+			return (0);
+		}
 	}
-	pthread_create(&monitor, NULL, monitoring, (void *)diner->philo);
-	pthread_join(monitor, NULL);
+	if (pthread_create(&monitor, NULL, monitoring, (void *)diner->philo) != 0)
+	{
+		printf("pthread_create() is failed\n");
+		return (0);
+	}
+	if (pthread_join(monitor, NULL) != 0)
+	{
+		printf("pthread_join() is failed\n");
+		return (0);
+	}
+	return (1);
 }
-
-
+/*
+int	init_threads_mutex_philo_struct(t_diner *diner)
+{
+	if (init_mutexes(diner) == 0)
+	{
+		printf("Mutexes are not initialized\n");
+		return (0);
+	}
+	if (create_join_threads(diner) == 0)
+	{
+		printf("Threads are not created\n");
+		return (0);
+	}
+}*/
