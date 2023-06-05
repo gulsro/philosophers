@@ -57,7 +57,7 @@ void	init_mutexes(s_diner *diner)
 	pthread_mutex_init(&diner->print, NULL);
 }
 
-// Creates threads (philo's and a thread for monitoring others threads)
+// Creates threads, philo's array and monitor (a seperated thread for monitoring others threads)
 void	init_threads(t_diner *diner)
 {
 	int	i;
@@ -68,8 +68,11 @@ void	init_threads(t_diner *diner)
 		return (0);
 	while (i < diner->number_of_philosophers)
 	{
-		pthread_create(&diner->t_id[i], NULL, tasking, (void *)diner->philo[i]);
+		if (pthread_create(&diner->t_id[i], NULL, routine, (void *)diner->philo[i]) != 0)
+			printf()
 	}
 	pthread_create(&monitor, NULL, monitoring, (void *)diner->philo);
 	pthread_join(monitor, NULL);
 }
+
+
