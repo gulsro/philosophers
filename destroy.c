@@ -1,11 +1,18 @@
 #include "philo.h"
 
+void	free_all(t_diner *diner)
+{
+	free(diner->t_id);
+    free(diner->philo);
+    free(diner);	
+}
+
 /*This funtion joins threads and does clean-up in case of an error during creation of threads.
  * Second parameter is a flag for indicating if create_thread() fails at array of philo threads or after single monitor thread.
 thread_array_flag = 1 >> Function joins with created threads in the array
 thread_array_flag = 0 >> Function joins all threads (array and also single monitor thread)
 */
-void	join_thread_cleanup(t_diner *diner, int thread_array_flag)
+int	join_thread_cleanup(t_diner *diner, int thread_array_flag)
 {
 	int	i;
 
@@ -16,9 +23,8 @@ void	join_thread_cleanup(t_diner *diner, int thread_array_flag)
 		{
 			if (pthread_join(diner->t_id[i], NULL) != 0)
         	{
-     	       print_error("pthread_join() is failed\n");
-				//FREEE	
-			   return ;
+				free_all(diner);
+				return (0);
         	}
 			i--;
 		}
@@ -29,23 +35,20 @@ void	join_thread_cleanup(t_diner *diner, int thread_array_flag)
     	{
         	if (pthread_join(diner->t_id[i], NULL) != 0)
         	{
-            	print_error("pthread_join() is failed\n");
-            	//FREEEE
-				return ;
+            	free_all(diner);
+				return 0;
         	}
         	i++;
     	}
 
 		if (pthread_join(monitor, NULL) != 0)
     	{
-        	print_error("pthread_join() is failed\n");
-        	//FREEEE
-			return ;
+        	free_all(diner);
+			return 0;
     	}
 	}
-	free(diner->t_id);
-	free(diner->philo);
-	free(diner);
+	free_all(diner);
+	return (1);
 }
 
 void	destroy_fork_mutex(t_diner *diner)
