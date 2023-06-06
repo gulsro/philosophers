@@ -23,7 +23,7 @@ static void	init_philo_struct(s_diner *diner)
 
 }
 
-// Initializes both print mutex and fork mutexes --it will be called in init_threads_mutex_philo()
+// Initializes both print_error mutex and fork mutexes --it will be called in init_threads_mutex_philo()
 static int	init_mutexes(s_diner *diner)
 {
 	int	i;
@@ -36,7 +36,7 @@ static int	init_mutexes(s_diner *diner)
 	{
 		if (pthread_mutex_init(&diner->fork[i], NULL) != 0)
 		{
-			printf("pthread_mutex_init() is failed\n")
+			print_errorf("pthread_mutex_init() is failed\n")
 			return (0);
 		}
 			i++;
@@ -47,9 +47,9 @@ static int	init_mutexes(s_diner *diner)
 		free(diner->fork);
 		return (0);
 	}
-	if (pthread_mutex_init(&diner->print, NULL) != 0)
+	if (pthread_mutex_init(&diner->print_error, NULL) != 0)
 	{
-		printf("pthread_mutex_init() is failed\n");
+		print_error("pthread_mutex_init() is failed\n");
 		//destroy fork mutexes??
 		return (0);
 	}
@@ -66,14 +66,14 @@ static int	join_threads(t_diner *diner)
 	{
 		if (pthread_join(diner->t_id[i], NULL) != 0)
 		{
-			printf("pthread_join() is failed\n");
+			print_error("pthread_join() is failed\n");
 			return (0);
 		}
 		i++;
 	}
 	if (pthread_join(monitor, NULL) != 0)
 	{
-		printf("pthread_join() is failed\n");
+		print_error("pthread_join() is failed\n");
 		return (0);
 	}
 	return (1);
@@ -92,13 +92,13 @@ static int	create_threads(t_diner *diner)
 	{
 		if (pthread_create(&diner->t_id[i], NULL, routine, (void *)diner->philo[i]) != 0)
 		{
-			printf("pthread_create() is failed\n");
+			print_error("pthread_create() is failed\n");
 			return (0);
 		}
 	}
 	if (pthread_create(&monitor, NULL, monitoring, (void *)diner->philo) != 0)
 	{
-		printf("pthread_create() is failed\n");
+		print_error("pthread_create() is failed\n");
 		//destroy philo threads?
 		return (0);
 	}

@@ -43,13 +43,13 @@ int check_arguments_valid(t_diner *diner, int argc, char **argv)
 		return (0);
 	if (check_all_digit(argv) == 0)
         {
-                printf("One or more given arguments are in wrong format.");
+                print_errorf("One or more given arguments are in wrong format.");
 		return (0);
 	}
 	init_arguments(diner, argc, argv);
 	if (check_timing_possible(diner) == 0)
 	{
-		printf("Operation is not possible with given input.\n");
+		print_errorf("Operation is not possible with given input.\n");
 		return (0);
 	}
 	

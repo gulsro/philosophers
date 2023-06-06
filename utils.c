@@ -14,7 +14,7 @@ int	ft_atoi(char *str)
 	}
 	if (n > INT_MAX)
 	{
-		printf("Number of the philos are greater than INT_MAX");
+		print_error("Number of the philos are greater than INT_MAX");
 		return (0);
 	}
 	return ((int)(n));
