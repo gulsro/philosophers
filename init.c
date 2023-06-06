@@ -39,7 +39,7 @@ static int	init_mutexes(s_diner *diner)
 	{
 		if (pthread_mutex_init(&diner->fork[i], NULL) != 0)
 		{
-			print_errorf("pthread_mutex_init() is failed\n")
+			print_error("pthread_mutex_init() is failed\n")
 			return (0);
 		}
 			i++;
@@ -70,6 +70,7 @@ static int	join_threads(t_diner *diner)
 		if (pthread_join(diner->t_id[i], NULL) != 0)
 		{
 			print_error("pthread_join() is failed\n");
+			//FREEE
 			return (0);
 		}
 		i++;
@@ -77,6 +78,7 @@ static int	join_threads(t_diner *diner)
 	if (pthread_join(monitor, NULL) != 0)
 	{
 		print_error("pthread_join() is failed\n");
+		//FREE
 		return (0);
 	}
 	return (1);
@@ -95,15 +97,13 @@ static int	create_threads(t_diner *diner)
 	{
 		if (pthread_create(&diner->t_id[i], NULL, routine, (void *)diner->philo[i]) != 0)
 		{
-			print_error("pthread_create() is failed\n");
 			join_and_destroy_thread(diner, 1);
 			return (0);
 		}
 	}
 	if (pthread_create(&monitor, NULL, monitoring, (void *)diner->philo) != 0)
 	{
-		print_error("pthread_create() is failed\n");
-		join_and_destroy_thread(dienr, 0);
+		join_and_destroy_thread(diner, 0);
 		return (0);
 	}
 	return (1);
@@ -114,10 +114,12 @@ void	init_threads_mutex_philo(t_diner *diner)
 	init_philo_struct(diner);
 	if (create_threads(diner) == 0)
 	{
+		print_error("pthread_create() is failed\n");
 		return ;
 	}
 	if (join_threads(diner) == 0)
 	{
+
 		return ;
 	}
 	if (init_mutexes(diner) == 0)

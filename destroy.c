@@ -5,7 +5,7 @@
 thread_array_flag = 1 >> Function joins with created threads in the array
 thread_array_flag = 0 >> Function joins all threads (array and also single monitor thread)
 */
-void	join_thread(t_diner *diner, int thread_array_flag)
+void	join_thread_cleanup(t_diner *diner, int thread_array_flag)
 {
 	int	i;
 
@@ -17,7 +17,8 @@ void	join_thread(t_diner *diner, int thread_array_flag)
 			if (pthread_join(diner->t_id[i], NULL) != 0)
         	{
      	       print_error("pthread_join() is failed\n");
-				return (0);
+				//FREEE	
+			   return ;
         	}
 			i--;
 		}
@@ -29,7 +30,8 @@ void	join_thread(t_diner *diner, int thread_array_flag)
         	if (pthread_join(diner->t_id[i], NULL) != 0)
         	{
             	print_error("pthread_join() is failed\n");
-            	return (0);
+            	//FREEEE
+				return ;
         	}
         	i++;
     	}
@@ -37,7 +39,8 @@ void	join_thread(t_diner *diner, int thread_array_flag)
 		if (pthread_join(monitor, NULL) != 0)
     	{
         	print_error("pthread_join() is failed\n");
-        	return (0);
+        	//FREEEE
+			return ;
     	}
 	}
 	free(diner->t_id);
@@ -52,6 +55,11 @@ void	destroy_fork_mutex(t_diner *diner)
 	i = 0;
 	while (i < diner->number_of_philosophers)
 	{
-		pthread_mutex_destroy(&diner->fork[i], NULL);
+		if (pthread_mutex_destroy(&diner->fork[i], NULL) != 0)
+		{
+			print_error("pthread_mutex_destroy() is failed");
+			return ;
+		}
 	}
+	free(diner->fork);
 }
