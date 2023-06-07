@@ -27,6 +27,7 @@ static int	check_all_digit(char **argv)
 	return (1);
 }
 
+//THIS MIGHT BE NOT NECESSARY
 //checks if simulation can start with given time values for each state
 static int     check_timing_possible(t_diner *diner)
 {

@@ -22,6 +22,7 @@ typedef struct s_diner
 	int	time_to_eat;
 	int	time_to_sleep;
 	int	must_eat;
+	int	stop_simulation;
 	pthread_t	*t_id;
 	pthread_t	*monitor;
 	pthread_mutex_t	*fork;
@@ -42,5 +43,5 @@ int	ft_atoi(char *str);
 
 //init.c
 void	init_arguments(t_diner *diner, int argc, char **argv);
-void    init_mutexes(s_diner *diner);
-void    init_philos(s_diner *diner);
+void    init_mutexes(t_diner *diner);
+void    init_philos(t_diner *diner);
