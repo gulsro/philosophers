@@ -1,8 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   philo.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: gozturk <marvin@codam.nl>                    +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/06/07 12:33:19 by gozturk       #+#    #+#                 */
+/*   Updated: 2023/06/07 13:16:09 by gozturk       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #ifndef PHILO_H
 # define PHILO_H
 
 # include <sys/time.h>
 # include <pthread.h>
+# include <limits.h>
+# include <unistd.h>
+# include <stdlib.h>
 
 typedef struct s_philo
 {
@@ -32,16 +48,34 @@ typedef struct s_diner
 
 //time.c
 long	get_current_time(void);
-long	elapsed_time(long time);
+long	elapsed_time(long start_time);
 
 //input_validation.c
-int	check_arguments_valid(int argc, char **argv);
-int	check_diner_possible(t_diner *diner);
+int		check_validation_and_init_arguments(t_diner *diner, int argc, char **argv);
+void    init_arguments(t_diner *diner, int argc, char **argv);
 
 //utils.c
 int	ft_atoi(char *str);
 
+//error.c
+void    print_error(char *msg);
+
 //init.c
-void	init_arguments(t_diner *diner, int argc, char **argv);
-void    init_mutexes(t_diner *diner);
-void    init_philos(t_diner *diner);
+void    init_threads_mutex_philo(t_diner *diner);
+
+//actions.c
+void    taking_forks(t_diner *diner);
+void    eating(t_diner *diner);
+void    thinking(t_diner *diner);
+void    sleeping(t_diner *diner);
+
+//destroy.c
+void    free_all(t_diner *diner);
+int join_thread_cleanup(t_diner *diner, int thread_array_flag);
+void    destroy_fork_mutex(t_diner *diner);
+
+//process.c
+void    *monitoring(t_diner *diner);
+void    *routine(t_diner *diner);
+
+#endif

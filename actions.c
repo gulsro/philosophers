@@ -9,7 +9,6 @@ static void    taking_forks_last_philo(t_diner *diner)
 	pthread_mutex_unlock(diner->print);
 }
 
-//it s just a trial for even id's to grab their forks.
 void	taking_forks(t_diner *diner)
 {
 	if (diner->philo->id == 5)

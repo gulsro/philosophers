@@ -6,11 +6,11 @@
 /*   By: gozturk <marvin@codam.nl>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 11:14:00 by gozturk       #+#    #+#                 */
-/*   Updated: 2023/06/07 08:42:11 by gozturk       ########   odam.nl         */
+/*   Updated: 2023/06/07 12:35:37 by gozturk       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include philo.h
+#include "philo.h"
 
 void	print_error(char *msg)
 {
@@ -19,7 +19,7 @@ void	print_error(char *msg)
 	i = 0;
 	while (msg[i] != '\0')
 	{
-		write(2, msg[i], 1);
+		write(2, &msg[i], 1);
 		i++;
 	}
 }

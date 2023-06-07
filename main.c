@@ -7,8 +7,11 @@ int main(int argc, char **argv)
 
 	diner = malloc(sizeof(t_diner));
 	if (!diner)
-		return (1);
+		return (0);
 	if (check_arguments_valid(diner, argc, argv) == 0) //check error msgs
-		return (1);
+	{
+		free(diner);
+		return (0);
+	}
 	init_thread_mutex_philo(diner);
 }

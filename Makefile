@@ -1,9 +1,13 @@
 NAME = philo
 
-SRC = time.c //
-	parsing.c //
-	input_validation.c //
-	utils.c //
+SRC = time.c \
+		utils.c \
+		input_validation.c \
+		error.c \
+		init.c \
+		actions.c \
+		destroy.c \
+		process.c
 
 HEADER = philo.h
 
@@ -15,7 +19,7 @@ OBJ = $(SRC:.c=.o)
 
 all:	$(NAME)
 
-$(NAME):	OBJ
+$(NAME):	$(OBJ)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
 
 %.o: %.c $(HEADER)

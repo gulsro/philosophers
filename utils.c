@@ -31,14 +31,3 @@ void	init_arguments(t_diner *diner, int argc, char **argv)
 		diner->must_eat = ft_atoi(argv[5]);
 }
 
-//no need assign_forks anymore
-/*
-void	assign_forks(s_diner *diner)
-{
-	int	i;
-
-	i = 0;
-	diner->philo.left_fork_id = diner->philo.philo_id;
-	diner->philo.right_fork_id = diner->philo.philo_id + 1;
-
-}*/

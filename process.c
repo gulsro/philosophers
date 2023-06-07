@@ -1,6 +1,6 @@
 #include "philo.h"
 
-void	monitoring(t_diner *diner)
+void	*monitoring(t_diner *diner)
 {
 	int		i;
 	long	now;
@@ -9,7 +9,7 @@ void	monitoring(t_diner *diner)
 	now = get_current_time();
 	while (i < diner->number_of_philosophers)
 	{
-		if (now - diner->philo[i]->last_meal_time > diner->time_to_die)
+		if (elapsed_time(diner->philo[i]->last_meal_time) > diner->time_to_die)
 		{
 			diner->philo[i]->dead = 1;
 			diner->stop_simulation = 1;
@@ -18,7 +18,7 @@ void	monitoring(t_diner *diner)
 
 }
 
-void	routine(t_diner *diner)
+void	*routine(t_diner *diner)
 {
 	while (1)
 	{
@@ -38,5 +38,7 @@ void	routine(t_diner *diner)
 		{
 			sleeping(diner);
 		}
+		else
+			return ;
 	}
 }
