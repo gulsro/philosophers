@@ -40,6 +40,7 @@ static int	init_mutexes(s_diner *diner)
 		if (pthread_mutex_init(&diner->fork[i], NULL) != 0)
 		{
 			print_error("pthread_mutex_init() is failed\n")
+			free(diner->fork); //IT SHOULD DESTROY THE CREATED FORKS IN THE ARRAY?
 			return (0);
 		}
 			i++;
@@ -53,7 +54,8 @@ static int	init_mutexes(s_diner *diner)
 	if (pthread_mutex_init(&diner->print, NULL) != 0)
 	{
 		print_error("pthread_mutex_init() is failed\n");
-		//destroy fork mutexes??
+		destroy_fork_mutexe(diner);
+		free(diner->print);
 		return (0);
 	}
 	return (1);

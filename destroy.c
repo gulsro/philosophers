@@ -61,6 +61,7 @@ void	destroy_fork_mutex(t_diner *diner)
 		if (pthread_mutex_destroy(&diner->fork[i], NULL) != 0)
 		{
 			print_error("pthread_mutex_destroy() is failed");
+			free(diner->fork);
 			return ;
 		}
 	}

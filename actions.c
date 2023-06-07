@@ -3,26 +3,26 @@
 //it s just a trial for even id's to grab their forks.
 void	taking_forks(t_diner *diner)
 {
-	if (diner->philo->id  == 1)
+	if (diner->philo->id == 5)
 	{
-		pthread_mutex_lock(diner->fork[diner->philo->id]);
-		pthread_mutex_lock(diner->fork[diner->philo->id + 1]);
+		pthread_mutex_lock(diner->fork[diner->philo->id - 1]);
+		pthread_mutex_lock(diner->fork[0]);
 		pthread_mutex_lock(diner->print);
 		printf("%ld %d has taken a fork\n", elapsed_time, diner->philo->id);
 		pthread_mutex_unlock(diner->print);
 	}
 	else if (diner->philo->id % 2 == 1)
 	{
-		pthread_mutex_lock(diner->fork[diner->philo->id]);
-        pthread_mutex_lock(diner->fork[diner->philo->id + 1]);
+		pthread_mutex_lock(diner->fork[diner->philo->id - 1]);
+        pthread_mutex_lock(diner->fork[diner->philo->id]);
         pthread_mutex_lock(diner->print);
         printf("%ld %d has taken a fork\n", elapsed_time, diner->philo->id);
         pthread_mutex_unlock(diner->print);
 	}
-	else if (diner->philo->id % 2 != 1)
+	else if (diner->philo->id % 2 == 0)
 	{
-		pthread_mutex_lock(diner->fork[diner->philo->id]);
-        pthread_mutex_lock(diner->fork[diner->philo->id + 1]);
+		pthread_mutex_lock(diner->fork[diner->philo->id - 1]);
+        pthread_mutex_lock(diner->fork[diner->philo->id]);
         pthread_mutex_lock(diner->print);
         printf("%ld %d has taken a fork\n", elapsed_time, diner->philo->id);
         pthread_mutex_unlock(diner->print);
