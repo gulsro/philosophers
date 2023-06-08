@@ -21,10 +21,10 @@ OBJ = $(SRC:.c=.o)
 all:	$(NAME)
 
 $(NAME):	$(OBJ)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(HEADERS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ)  #$(HEADER)
 
 %.o: %.c $(HEADER)
-	$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS)
+	$(CC) $(CFLAGS) -o $@ -c $< # $(HEADER)
 
 clean:
 	@rm -rf $(OBJ)

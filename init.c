@@ -7,6 +7,7 @@ static void	init_philo_struct(t_diner *diner)
 
 	i = 0;
 	diner->philo = malloc(sizeof(t_philo) * diner->number_of_philosophers);
+	//diner->philo = malloc(sizeof(t_philo));
 	if (!diner->philo)
 		return ;
 	while (i < diner->number_of_philosophers)
@@ -16,7 +17,7 @@ static void	init_philo_struct(t_diner *diner)
 		diner->philo[i].start_time = get_current_time();
 		diner->philo[i].last_meal_time = diner->philo[i].start_time;
 		diner->philo[i].left_fork_id = i + 1;
-     	if (diner->philo->id == diner->number_of_philosophers)
+     	if (diner->philo[i].id == diner->number_of_philosophers)
 		{
 			diner->philo[i].right_fork_id = 1;
 		}

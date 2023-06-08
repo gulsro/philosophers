@@ -11,6 +11,8 @@ static void    taking_forks_last_philo(t_diner *diner)
 
 void	taking_forks(t_diner *diner)
 {
+	if (diner->philo == NULL)
+		return ;
 	if (diner->philo->id == 5)
 	{
 		taking_forks_last_philo(diner);
