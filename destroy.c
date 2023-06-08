@@ -41,7 +41,7 @@ int	join_thread_cleanup(t_diner *diner, int thread_array_flag)
         	i++;
     	}
 
-		if (pthread_join(monitor, NULL) != 0)
+		if (pthread_join(*diner->monitor, NULL) != 0)
     	{
         	free_all(diner);
 			return 0;
@@ -58,7 +58,7 @@ void	destroy_fork_mutex(t_diner *diner)
 	i = 0;
 	while (i < diner->number_of_philosophers)
 	{
-		if (pthread_mutex_destroy(&diner->fork[i], NULL) != 0)
+		if (pthread_mutex_destroy(&diner->fork[i]) != 0)
 		{
 			print_error("pthread_mutex_destroy() is failed");
 			free(diner->fork);

@@ -43,16 +43,20 @@ void    init_arguments(t_diner *diner, int argc, char **argv)
 int check_validation_and_init_arguments(t_diner *diner, int argc, char **argv)
 {
 	if (argc < 5 || argc > 6)
+	{
+		print_error("Wrong number of arguments\n");
 		return (0);
+	}
 	if (check_all_digit(argv) == 0)
 	{
-		print_error("One or more given arguments are in wrong format.");
+		print_error("One or more given arguments are in wrong format\n");
 		return (0);
 	}
 	init_arguments(diner, argc, argv);
 	if (diner->number_of_philosophers < 1)
 	{
+		print_error("There should be at least one philosopher\n");
 		return (0);
 	}
-	return (1);	
+	return (1);
 }

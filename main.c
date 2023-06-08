@@ -8,10 +8,10 @@ int main(int argc, char **argv)
 	diner = malloc(sizeof(t_diner));
 	if (!diner)
 		return (0);
-	if (check_arguments_valid(diner, argc, argv) == 0) //check error msgs
+	if (check_validation_and_init_arguments(diner, argc, argv) == 0) //check error msgs
 	{
 		free(diner);
 		return (0);
 	}
-	init_thread_mutex_philo(diner);
+	init_threads_mutex_philo(diner);
 }

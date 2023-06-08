@@ -1,6 +1,7 @@
 NAME = philo
 
-SRC = time.c \
+SRC = main.c \
+	time.c \
 		utils.c \
 		input_validation.c \
 		error.c \
@@ -13,14 +14,14 @@ HEADER = philo.h
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 
 OBJ = $(SRC:.c=.o)
 
 all:	$(NAME)
 
 $(NAME):	$(OBJ)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(HEADERS)
 
 %.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS)

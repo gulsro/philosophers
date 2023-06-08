@@ -106,6 +106,12 @@ static int	create_threads(t_diner *diner)
 		}
 		i++;
 	}
+	diner->monitor = malloc(sizeof(pthread_t));
+	if (!diner->monitor)
+	{
+		free(diner->t_id);
+		return (0);
+	}
 	if (pthread_create(diner->monitor, NULL, (void *)monitoring, (void *)diner) != 0)
 	{
 		if (join_thread_cleanup(diner, 0) == 0)
@@ -135,6 +141,5 @@ void	init_threads_mutex_philo(t_diner *diner)
 	if (init_mutexes(diner) == 0)
     {
 		print_error("pthread_mutex_init() is failed\n");
-        return ;
     }
 }

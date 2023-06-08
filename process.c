@@ -2,43 +2,47 @@
 
 void	*monitoring(t_diner *diner)
 {
-	int		i;
-	long	now;
+	int	i;
 
 	i = 0;
-	now = get_current_time();
-	while (i < diner->number_of_philosophers)
+//	while (i < diner->number_of_philosophers)
+	while (1)
 	{
-		if (elapsed_time(diner->philo[i]->last_meal_time) > diner->time_to_die)
+		if (diner->must_eat == 0)
 		{
-			diner->philo[i]->dead = 1;
 			diner->stop_simulation = 1;
 		}
+		if (elapsed_time(diner->philo[i].last_meal_time) > diner->time_to_die)
+		{
+			diner->philo[i].dead = 1;
+			diner->stop_simulation = 1;
+		}
+		i++;
 	}
-
+	return NULL;
 }
 
 void	*routine(t_diner *diner)
 {
 	while (1)
 	{
-		if (diner->stop_simulation == 0 || diner->must_eat > 0)
+		if (diner->stop_simulation == 0)
 		{
 			taking_forks(diner);
 		}
-		if (diner->stop_simulation == 0 || diner->must_eat > 0)
+		if (diner->stop_simulation == 0)
 		{
 			eating(diner);
 		}
-		if (diner->stop_simulation == 0 || diner->must_eat > 0)
+		if (diner->stop_simulation == 0)
 		{
 			thinking(diner);
 		}
-		if (diner->stop_simulation == 0 || diner->must_eat > 0)
+		if (diner->stop_simulation == 0)
 		{
 			sleeping(diner);
 		}
 		else
-			return ;
+			return (0);
 	}
 }

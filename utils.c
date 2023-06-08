@@ -19,15 +19,9 @@ int	ft_atoi(char *str)
 	}
 	return ((int)(n));
 }
-
-// Initializes command line arguments, will be called in check_arguments_valid() right after input validation
-void	init_arguments(t_diner *diner, int argc, char **argv)
+/*
+void	one_philosopher(t_diner *diner)
 {
-	diner->number_of_philosophers = ft_atoi(argv[1]);
-	diner->time_to_die = ft_atoi(argv[2]);
-	diner->time_to_eat = ft_atoi(argv[3]);
-	diner->time_to_sleep = ft_atoi(argv[4]);
-	if (argc == 6)
-		diner->must_eat = ft_atoi(argv[5]);
-}
-
+	init_threads_mutex_philo(diner);
+	
+}*/
