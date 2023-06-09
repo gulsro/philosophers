@@ -7,7 +7,6 @@ static void	init_philo_struct(t_diner *diner)
 
 	i = 0;
 	diner->philo = malloc(sizeof(t_philo) * diner->number_of_philosophers);
-	//diner->philo = malloc(sizeof(t_philo));
 	if (!diner->philo)
 		return ;
 	while (i < diner->number_of_philosophers)
@@ -17,7 +16,7 @@ static void	init_philo_struct(t_diner *diner)
 		diner->philo[i].start_time = get_current_time();
 		diner->philo[i].last_meal_time = diner->philo[i].start_time;
 		diner->philo[i].left_fork_id = i + 1;
-     	if (diner->philo[i].id == diner->number_of_philosophers)
+     		if (diner->philo[i].id == diner->number_of_philosophers)
 		{
 			diner->philo[i].right_fork_id = 1;
 		}
@@ -65,11 +64,13 @@ static int	init_mutexes(t_diner *diner)
 }
 
 //Joins philo's threads and  monitor thread -- will be called in init_threads_mutex_philo()
-static int	join_threads(t_diner *diner)
+int	join_threads(t_diner *diner)
 {
 	int	i;
 
 	i = 0;
+	if (!diner->t_id)
+		return (0);
 	while (i < diner->number_of_philosophers)
 	{
 		if (pthread_join(diner->t_id[i], NULL) != 0)
@@ -98,9 +99,10 @@ static int	create_threads(t_diner *diner)
 	{
 		if (pthread_create(&diner->t_id[i], NULL, (void *)routine, (void *)diner) != 0)
 		{
+		//	write(1, "LA", 2);
 			if (join_thread_cleanup(diner, 1) == 0)
 			{
-				print_error("pthread_join() is failed\n");
+				print_error("Pthread_join() is failed\n");
 				free(diner->t_id);
 				return (0);
 			}
@@ -117,7 +119,7 @@ static int	create_threads(t_diner *diner)
 	{
 		if (join_thread_cleanup(diner, 0) == 0)
 		{
-			print_error("pthread_join() is failed\n");
+			print_error("Pthread_join() is failed\n");
 			free(diner->t_id);
 			return (0);
 		}
@@ -128,19 +130,19 @@ static int	create_threads(t_diner *diner)
 void	init_threads_mutex_philo(t_diner *diner)
 {
 	init_philo_struct(diner);
+	if (init_mutexes(diner) == 0)
+    	{
+                print_error("Pthread_mutex_init() is failed\n");
+    	}
 	if (create_threads(diner) == 0)
 	{
-		print_error("pthread_create() is failed\n");
+		print_error("Pthread_create() is failed\n");
 		return ;
 	}
 	if (join_threads(diner) == 0)
 	{
-		print_error("pthread_join() is failed\n");
+		print_error("Pthread_join() is failed\n");
 		free_all(diner);
 		return ;
 	}
-	if (init_mutexes(diner) == 0)
-    {
-		print_error("pthread_mutex_init() is failed\n");
-    }
 }

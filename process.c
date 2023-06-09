@@ -39,10 +39,16 @@ static int	check_philo_dead(t_diner *diner)
 
 void	*routine(t_diner *diner)
 {
+	if (diner->philo == NULL)
+		return 0;
+	if (diner->philo->id == 5)
+		sleeping(diner);
+	printf("philo id  is: %d\n", diner->philo->id);
 	while (1)
 	{
 		if (diner->stop_simulation == 0 || check_philo_dead(diner) != 1)
 		{
+	//		write(1, "LA", 2);
 			taking_forks(diner);
 		}
 		if (diner->stop_simulation == 0 || check_philo_dead(diner) != 1)
@@ -57,7 +63,8 @@ void	*routine(t_diner *diner)
 		{
 			sleeping(diner);
 		}
-		else
-			return (0);
+	//	if (diner->stop_simulation == 1)
+	//		join_threads(diner);
+	return (0);
 	}
 }

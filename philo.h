@@ -63,6 +63,7 @@ void    print_error(char *msg);
 
 //init.c
 void    init_threads_mutex_philo(t_diner *diner);
+int	join_threads(t_diner *diner);
 
 //actions.c
 void    taking_forks(t_diner *diner);

@@ -14,5 +14,6 @@ int main(int argc, char **argv)
 		return (0);
 	}
 	init_threads_mutex_philo(diner);
+
 	return (0);
 }
