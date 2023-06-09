@@ -78,7 +78,7 @@ int join_thread_cleanup(t_diner *diner, int thread_array_flag);
 void    destroy_fork_mutex(t_diner *diner);
 
 //process.c
-void    *monitoring(t_philo *philo);
+void    *monitoring(t_diner *diner);
 void    *routine(t_philo *philo);
 
 #endif

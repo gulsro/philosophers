@@ -5,8 +5,10 @@ static t_philo	*init_philo_struct(t_diner *diner)
 {
 	t_philo *philo;
 	int	i;
+	long	now;
 
 	i = 0;
+	now = get_current_time();
 	philo = malloc(sizeof(t_philo) * diner->number_of_philosophers);
 	if (!philo)
 		return (NULL);
@@ -15,8 +17,8 @@ static t_philo	*init_philo_struct(t_diner *diner)
 		philo[i].diner = diner;
 		philo[i].id = i + 1;
 		philo[i].eaten_meals = 0;
-		philo[i].diner->must_eat = 0;
-		philo[i].start_time = get_current_time();
+//		printf("must_eat = %d\n", philo[i].diner->must_eat);
+		philo[i].start_time = now;
 		philo[i].last_meal_time = philo[i].start_time;
 		philo[i].left_fork_id = i + 1;
      		if (philo[i].id == diner->number_of_philosophers)
@@ -121,7 +123,7 @@ static int	create_threads(t_diner *diner, t_philo *philo)
 		free(diner->t_id);
 		return (0);
 	}
-	if (pthread_create(diner->monitor, NULL, (void *)monitoring, (void *)&philo[i]) != 0)
+	if (pthread_create(diner->monitor, NULL, (void *)monitoring, (void *)&diner) != 0)
 	{
 		if (join_thread_cleanup(diner, 0) == 0)
 		{

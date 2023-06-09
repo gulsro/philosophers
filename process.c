@@ -1,23 +1,22 @@
 #include "philo.h"
 
-void	*monitoring(t_philo *philo)
+void	*monitoring(t_diner *diner)
 {
-	int	i;
+//	int	i;
 
-	i = 0;
+//	i = 0;
 	while (1)
 	{
-		if (philo[i].diner->must_eat == 0)
+		if (diner->must_eat == 0)
 		{
-			philo[i].diner->stop_simulation = 1;
+			diner->stop_simulation = 1;
 		}
-		if (elapsed_time(philo[i].last_meal_time) > philo[i].diner->time_to_die)
+		if (elapsed_time(diner->philo->last_meal_time) > diner->time_to_die)
 		{
-			philo[i].dead = 1;
-			philo[i].diner->stop_simulation = 1;
+			diner->philo->dead = 1;
+			diner->stop_simulation = 1;
 		}
-		i++;
-		i = (i + 1) % philo[i].diner->number_of_philosophers;
+//		i = (i + 1) % philo->diner->number_of_philosophers;
 	}
 	return NULL;
 }
@@ -45,19 +44,19 @@ void	*routine(t_philo *philo)
 		sleeping(philo);
 	while (1)
 	{
-		if (philo->diner->stop_simulation == 0 || check_philo_dead(philo) != 1)
+		if (philo->diner->must_eat > 0 || philo->diner->stop_simulation == 0 || check_philo_dead(philo) != 1)
 		{
 			taking_forks(philo);
 		}
-		if (philo->diner->stop_simulation == 0 || check_philo_dead(philo) != 1)
+		if (philo->diner->must_eat > 0 || philo->diner->stop_simulation == 0 || check_philo_dead(philo) != 1)
 		{
 			eating(philo);
 		}
-		if (philo->diner->stop_simulation == 0 || check_philo_dead(philo) != 1)
+		if (philo->diner->must_eat > 0 || philo->diner->stop_simulation == 0 || check_philo_dead(philo) != 1)
 		{
 			thinking(philo);
 		}
-		if (philo->diner->stop_simulation == 0 || check_philo_dead(philo) != 1)
+		if (philo->diner->must_eat > 0 || philo->diner->stop_simulation == 0 || check_philo_dead(philo) != 1)
 		{
 			sleeping(philo);
 		}
