@@ -6,7 +6,7 @@
 /*   By: gozturk <marvin@codam.nl>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/07 12:33:19 by gozturk       #+#    #+#                 */
-/*   Updated: 2023/06/09 11:38:36 by gozturk       ########   odam.nl         */
+/*   Updated: 2023/06/09 14:45:27 by gozturk       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ void    init_threads_mutex_philo(t_diner *diner);
 int	join_threads(t_diner *diner);
 
 //actions.c
-void    taking_forks(t_diner *diner);
-void    eating(t_diner *diner);
-void    thinking(t_diner *diner);
-void    sleeping(t_diner *diner);
+void    taking_forks(t_philo *philo);
+void    eating(t_philo *philo);
+void    thinking(t_philo *philo);
+void    sleeping(t_philo *philo);
 
 //destroy.c
 void    free_all(t_diner *diner);
@@ -78,7 +78,7 @@ int join_thread_cleanup(t_diner *diner, int thread_array_flag);
 void    destroy_fork_mutex(t_diner *diner);
 
 //process.c
-void    *monitoring(t_diner *diner);
-void    *routine(t_diner *diner);
+void    *monitoring(t_philo *philo);
+void    *routine(t_philo *philo);
 
 #endif

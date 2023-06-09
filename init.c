@@ -1,63 +1,70 @@
 #include "philo.h"
 
 // Initializes philo struct --it will be called in init_threads_mutex_philo()
-static void	init_philo_struct(t_diner *diner)
+static t_philo	*init_philo_struct(t_diner *diner)
 {
+	t_philo *philo;
 	int	i;
 
 	i = 0;
-	diner->philo = malloc(sizeof(t_philo) * diner->number_of_philosophers);
-	if (!diner->philo)
-		return ;
+	philo = malloc(sizeof(t_philo) * diner->number_of_philosophers);
+	if (!philo)
+		return (NULL);
 	while (i < diner->number_of_philosophers)
 	{
-		diner->philo[i].id = i + 1;
-		diner->philo[i].eaten_meals = 0;
-		diner->philo[i].start_time = get_current_time();
-		diner->philo[i].last_meal_time = diner->philo[i].start_time;
-		diner->philo[i].left_fork_id = i + 1;
-     		if (diner->philo[i].id == diner->number_of_philosophers)
+		philo[i].diner = diner;
+		philo[i].id = i + 1;
+		philo[i].eaten_meals = 0;
+		philo[i].diner->must_eat = 0;
+		philo[i].start_time = get_current_time();
+		philo[i].last_meal_time = philo[i].start_time;
+		philo[i].left_fork_id = i + 1;
+     		if (philo[i].id == diner->number_of_philosophers)
 		{
-			diner->philo[i].right_fork_id = 1;
+			philo[i].right_fork_id = 1;
 		}
 		else
 		{
-			diner->philo[i].right_fork_id = i + 2;
+			philo[i].right_fork_id = i + 2;
 		}
-		diner->philo[i].dead = 0;
+		philo[i].dead = 0;
 		i++;
 	}
-
+	return (philo);
 }
 
 // Initializes both print mutex and fork mutexes --it will be called in init_threads_mutex_philo()
-static int	init_mutexes(t_diner *diner)
+static int	init_mutexes(t_philo *philo)
 {
 	int	i;
 
 	i = 0;
-	diner->fork = malloc(sizeof(pthread_mutex_t) * diner->number_of_philosophers);
-	if (!diner->fork)
-		return (0);
-	while (i < diner->number_of_philosophers)
+	while (i < philo->diner->number_of_philosophers)
 	{
-		if (pthread_mutex_init(&diner->fork[i], NULL) != 0)
+		philo[i].diner->fork = malloc(sizeof(pthread_mutex_t) * philo[i].diner->number_of_philosophers);
+		if (!philo->diner->fork)
+			return (0);
+		i++;
+	}
+	while (i < philo->diner->number_of_philosophers)
+	{
+		if (pthread_mutex_init(&philo->diner->fork[i], NULL) != 0)
 		{
-			free(diner->fork); //IT SHOULD DESTROY THE CREATED FORKS IN THE ARRAY?
+			free(philo->diner->fork); //IT SHOULD DESTROY THE CREATED FORKS IN THE ARRAY?
 			return (0);
 		}
 			i++;
 	}
-	diner->print = malloc(sizeof(pthread_mutex_t) * diner->number_of_philosophers);
-	if (!diner->print)
+	philo->diner->print = malloc(sizeof(pthread_mutex_t) * philo->diner->number_of_philosophers);
+	if (!philo->diner->print)
 	{
-		free(diner->fork);
+		free(philo->diner->fork);
 		return (0);
 	}
-	if (pthread_mutex_init(diner->print, NULL) != 0)
+	if (pthread_mutex_init(philo->diner->print, NULL) != 0)
 	{
-		destroy_fork_mutex(diner);
-		free(diner->print);
+		destroy_fork_mutex(philo->diner);
+		free(philo->diner->print);
 		return (0);
 	}
 	return (1);
@@ -87,7 +94,7 @@ int	join_threads(t_diner *diner)
 }
 
 // Creates threads, philo's array and monitor (a seperated thread for monitoring others threads) --it will be called in init_threads_mutex_philo()
-static int	create_threads(t_diner *diner)
+static int	create_threads(t_diner *diner, t_philo *philo)
 {
 	int	i;
 
@@ -97,7 +104,7 @@ static int	create_threads(t_diner *diner)
 		return (0);
 	while (i < diner->number_of_philosophers)
 	{
-		if (pthread_create(&diner->t_id[i], NULL, (void *)routine, (void *)diner) != 0)
+		if (pthread_create(&diner->t_id[i], NULL, (void *)routine, (void *)&philo[i]) != 0)
 		{
 			if (join_thread_cleanup(diner, 1) == 0)
 			{
@@ -114,7 +121,7 @@ static int	create_threads(t_diner *diner)
 		free(diner->t_id);
 		return (0);
 	}
-	if (pthread_create(diner->monitor, NULL, (void *)monitoring, (void *)diner) != 0)
+	if (pthread_create(diner->monitor, NULL, (void *)monitoring, (void *)&philo[i]) != 0)
 	{
 		if (join_thread_cleanup(diner, 0) == 0)
 		{
@@ -128,20 +135,28 @@ static int	create_threads(t_diner *diner)
 
 void	init_threads_mutex_philo(t_diner *diner)
 {
-	init_philo_struct(diner);
-	if (init_mutexes(diner) == 0)
+	t_philo *philo;
+
+
+	philo = init_philo_struct(diner);
+	if (!philo)
+	{
+		print_error("Philo struct can not be created\n");
+		return ;
+	}
+	if (init_mutexes(philo) == 0)
     	{
                 print_error("Pthread_mutex_init() is failed\n");
     	}
-	if (create_threads(diner) == 0)
+	if (create_threads(diner, philo) == 0)
 	{
 		print_error("Pthread_create() is failed\n");
 		return ;
 	}
-/*	if (join_threads(diner) == 0)
+	if (join_threads(diner) == 0)
 	{
 		print_error("Pthread_join() is failed\n");
 		free_all(diner);
 		return ;
-	}*/
+	}
 }
