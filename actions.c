@@ -17,6 +17,7 @@ void	taking_forks(t_diner *diner)
 	if (diner->philo->id == 5)
 	{
 		taking_forks_last_philo(diner);
+		break ;
 	}
 	else if (diner->philo->id % 2 == 1)
 		usleep(50);
@@ -31,6 +32,7 @@ void	taking_forks(t_diner *diner)
 	}*/
 //	else if (diner->philo->id % 2 == 0)
 //	{
+	
 		pthread_mutex_lock(&diner->fork[diner->philo->id - 1]);
 		pthread_mutex_lock(&diner->fork[diner->philo->id]);
 		pthread_mutex_lock(diner->print);

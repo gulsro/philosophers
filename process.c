@@ -43,12 +43,10 @@ void	*routine(t_diner *diner)
 		return 0;
 	if (diner->philo->id == 5)
 		sleeping(diner);
-	printf("philo id  is: %d\n", diner->philo->id);
 	while (1)
 	{
 		if (diner->stop_simulation == 0 || check_philo_dead(diner) != 1)
 		{
-	//		write(1, "LA", 2);
 			taking_forks(diner);
 		}
 		if (diner->stop_simulation == 0 || check_philo_dead(diner) != 1)

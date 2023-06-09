@@ -99,7 +99,6 @@ static int	create_threads(t_diner *diner)
 	{
 		if (pthread_create(&diner->t_id[i], NULL, (void *)routine, (void *)diner) != 0)
 		{
-		//	write(1, "LA", 2);
 			if (join_thread_cleanup(diner, 1) == 0)
 			{
 				print_error("Pthread_join() is failed\n");
