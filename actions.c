@@ -17,30 +17,16 @@ void	taking_forks(t_diner *diner)
 	if (diner->philo->id == 5)
 	{
 		taking_forks_last_philo(diner);
-		break ;
+		return ;
 	}
 	else if (diner->philo->id % 2 == 1)
-		usleep(50);
-/*	else if (diner->philo->id % 2 == 1)
-	{
-		pthread_mutex_lock(&diner->fork[diner->philo->id - 1]);
-		pthread_mutex_lock(&diner->fork[diner->philo->id]);
-		pthread_mutex_lock(diner->print);
-		printf("%ld %d has taken a fork\n", elapsed_time(get_current_time()), diner->philo->id);
-		printf("%ld %d has taken a fork\n", elapsed_time(get_current_time()), diner->philo->id);
-		pthread_mutex_unlock(diner->print);
-	}*/
-//	else if (diner->philo->id % 2 == 0)
-//	{
-	
-		pthread_mutex_lock(&diner->fork[diner->philo->id - 1]);
-		pthread_mutex_lock(&diner->fork[diner->philo->id]);
-		pthread_mutex_lock(diner->print);
-		printf("%ld %d has taken a fork\n", elapsed_time(get_current_time()), diner->philo->id);
-		printf("%ld %d has taken a fork\n", elapsed_time(get_current_time()), diner->philo->id);
-		pthread_mutex_unlock(diner->print);
-//	}
-
+		usleep(50);	
+	pthread_mutex_lock(&diner->fork[diner->philo->id - 1]);
+	pthread_mutex_lock(&diner->fork[diner->philo->id]);
+	pthread_mutex_lock(diner->print);
+	printf("%ld %d has taken a fork\n", elapsed_time(get_current_time()), diner->philo->id);
+	printf("%ld %d has taken a fork\n", elapsed_time(get_current_time()), diner->philo->id);
+	pthread_mutex_unlock(diner->print);
 }
 
 void	eating(t_diner *diner)

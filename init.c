@@ -79,10 +79,10 @@ int	join_threads(t_diner *diner)
 		}
 		i++;
 	}
-	if (pthread_join(*diner->monitor, NULL) != 0)
+/*	if (pthread_join(*diner->monitor, NULL) != 0)
 	{
 		return (0);
-	}
+	}*/
 	return (1);
 }
 
@@ -138,10 +138,10 @@ void	init_threads_mutex_philo(t_diner *diner)
 		print_error("Pthread_create() is failed\n");
 		return ;
 	}
-	if (join_threads(diner) == 0)
+/*	if (join_threads(diner) == 0)
 	{
 		print_error("Pthread_join() is failed\n");
 		free_all(diner);
 		return ;
-	}
+	}*/
 }

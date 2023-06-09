@@ -6,7 +6,7 @@
 /*   By: gozturk <marvin@codam.nl>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/07 12:33:19 by gozturk       #+#    #+#                 */
-/*   Updated: 2023/06/08 13:05:09 by gozturk       ########   odam.nl         */
+/*   Updated: 2023/06/09 11:38:36 by gozturk       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_philo
 	int	left_fork_id;
 	int	right_fork_id;
 	int	dead;
+	struct s_diner *diner;
 }t_philo;
 
 typedef struct s_diner
