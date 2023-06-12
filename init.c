@@ -19,7 +19,11 @@ static t_philo	*init_philo_struct(t_diner *diner)
 		philo[i].eaten_meals = 0;
 //		printf("must_eat = %d\n", philo[i].diner->must_eat);
 		philo[i].start_time = now;
+		printf("now: %ld\n", philo[i].start_time);
+//		usleep(50);
+//		printf("slept now: %ld\n", elapsed_time(philo[i].start_time));
 		philo[i].last_meal_time = philo[i].start_time;
+		philo[i].must_eat_for_philo = diner->must_eat;
 		philo[i].left_fork_id = i + 1;
      		if (philo[i].id == diner->number_of_philosophers)
 		{
@@ -32,6 +36,8 @@ static t_philo	*init_philo_struct(t_diner *diner)
 		philo[i].dead = 0;
 		i++;
 	}
+//	usleep(50);
+//	printf("slept now: %ld\n", elapsed_time(philo[i].start_time));
 	return (philo);
 }
 
@@ -44,10 +50,11 @@ static int	init_mutexes(t_philo *philo)
 	while (i < philo->diner->number_of_philosophers)
 	{
 		philo[i].diner->fork = malloc(sizeof(pthread_mutex_t) * philo[i].diner->number_of_philosophers);
-		if (!philo->diner->fork)
+		if (!philo[i].diner->fork)
 			return (0);
 		i++;
 	}
+	i = 0;
 	while (i < philo->diner->number_of_philosophers)
 	{
 		if (pthread_mutex_init(&philo[i].diner->fork[i], NULL) != 0)
@@ -76,15 +83,15 @@ static int	init_mutexes(t_philo *philo)
 int	join_threads(t_diner *diner)
 {
 	int	i;
-	pthread_t	*t_id;
+//	pthread_t	*t_id;
 
-	t_id = diner->t_id;
+//	t_id = diner->t_id;
 	i = 0;
-	if (!t_id)
+	if (!diner->t_id)
 		return (0);
 	while (i < diner->number_of_philosophers)
 	{
-		if (pthread_join(t_id[i], NULL) != 0)
+		if (pthread_join(diner->t_id[i], NULL) != 0)
 		{
 			return (0);
 		}
@@ -125,7 +132,7 @@ static int	create_threads(t_diner *diner, t_philo *philo)
 		free(diner->t_id);
 		return (0);
 	}
-	if (pthread_create(diner->monitor, NULL, (void *)monitoring, (void *)&diner) != 0)
+	if (pthread_create(diner->monitor, NULL, (void *)monitoring, (void *)philo) != 0)
 	{
 		if (join_thread_cleanup(diner, 0) == 0)
 		{
@@ -152,15 +159,15 @@ void	init_threads_mutex_philo(t_diner *diner)
     	{
                 print_error("Pthread_mutex_init() is failed\n");
     	}
-	if (create_threads(diner, philo) == 0)
+	if (create_threads(philo->diner, philo) == 0)
 	{
 		print_error("Pthread_create() is failed\n");
 		return ;
 	}
-	if (join_threads(diner) == 0)
+/*	if (join_threads(diner) == 0)
 	{
 		print_error("Pthread_join() is failed\n");
 		free_all(diner);
 		return ;
-	}
+	}*/
 }

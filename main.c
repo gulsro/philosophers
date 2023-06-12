@@ -13,9 +13,11 @@ int main(int argc, char **argv)
 		free(diner);
 		return (0);
 	}
-	printf("now time = %ld\n", get_current_time());
-//	printf("elapsed time = %ld\n", elapsed_time());
+//	printf("now time = %ld\n", get_current_time());
+//	printf("now time = %ld\n", diner->philo[0].start_time);
+//printf("elapsed time = %ld\n", elapsed_time());
 	init_threads_mutex_philo(diner);
+//	printf("start time = %ld\n", diner->philo->start_time);
 	pthread_detach(*diner->monitor);
 //	if (pthread_join(*diner->monitor, NULL) != 0)
 //	{

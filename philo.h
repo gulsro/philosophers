@@ -30,6 +30,7 @@ typedef struct s_philo
 	int	left_fork_id;
 	int	right_fork_id;
 	int	dead;
+	int	must_eat_for_philo;
 	struct s_diner *diner;
 }t_philo;
 
@@ -78,7 +79,7 @@ int join_thread_cleanup(t_diner *diner, int thread_array_flag);
 void    destroy_fork_mutex(t_diner *diner);
 
 //process.c
-void    *monitoring(t_diner *diner);
+void    *monitoring(t_philo *philo);
 void    *routine(t_philo *philo);
 
 #endif

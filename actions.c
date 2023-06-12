@@ -12,7 +12,7 @@ static void    taking_forks_last_philo(t_philo *philo)
 
 void	taking_forks(t_philo *philo)
 {
-	if (philo->id == 5)
+	if (philo->id == philo->diner->number_of_philosophers)
 	{
 		taking_forks_last_philo(philo);
 		return ;
@@ -33,7 +33,7 @@ void	eating(t_philo *philo)
 	printf("%ld %d is eating\n", elapsed_time(philo->start_time), philo->id);
 	pthread_mutex_unlock(philo->diner->print);
 	philo->eaten_meals++;
-	philo->diner->must_eat--;
+	philo->must_eat_for_philo--;
 	philo->last_meal_time = get_current_time();
 	usleep(philo->diner->time_to_eat);
 	pthread_mutex_unlock(&philo->diner->fork[philo->id]);
