@@ -50,9 +50,9 @@ static int	init_mutexes(t_philo *philo)
 	}
 	while (i < philo->diner->number_of_philosophers)
 	{
-		if (pthread_mutex_init(&philo->diner->fork[i], NULL) != 0)
+		if (pthread_mutex_init(&philo[i].diner->fork[i], NULL) != 0)
 		{
-			free(philo->diner->fork); //IT SHOULD DESTROY THE CREATED FORKS IN THE ARRAY?
+			free(philo[i].diner->fork); //IT SHOULD DESTROY THE CREATED FORKS IN THE ARRAY?
 			return (0);
 		}
 			i++;
@@ -76,13 +76,15 @@ static int	init_mutexes(t_philo *philo)
 int	join_threads(t_diner *diner)
 {
 	int	i;
+	pthread_t	*t_id;
 
+	t_id = diner->t_id;
 	i = 0;
-	if (!diner->t_id)
+	if (!t_id)
 		return (0);
 	while (i < diner->number_of_philosophers)
 	{
-		if (pthread_join(diner->t_id[i], NULL) != 0)
+		if (pthread_join(t_id[i], NULL) != 0)
 		{
 			return (0);
 		}
