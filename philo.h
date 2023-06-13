@@ -30,7 +30,7 @@ typedef struct s_philo
 	int	left_fork_id;
 	int	right_fork_id;
 	int	dead;
-	int	must_eat_for_philo;
+//	int	must_eat_for_philo;
 	struct s_diner *diner;
 }t_philo;
 
@@ -42,8 +42,8 @@ typedef struct s_diner
 	int	time_to_sleep;
 	int	must_eat;
 	int	stop_simulation;
-	pthread_t	*t_id;
-	pthread_t	*monitor;
+	pthread_t	*thread_arr;
+	pthread_t	*monitor_thread;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t *print;
 	t_philo		*philo;

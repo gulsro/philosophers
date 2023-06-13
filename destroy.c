@@ -2,7 +2,7 @@
 
 void	free_all(t_diner *diner)
 {
-	free(diner->t_id);
+	free(diner->thread_arr);
     free(diner->philo);
     free(diner);	
 }
@@ -21,7 +21,7 @@ int	join_thread_cleanup(t_diner *diner, int thread_array_flag)
 	{	
 		while (i >= 0)
 		{
-			if (pthread_join(diner->t_id[i], NULL) != 0)
+			if (pthread_join(diner->thread_arr[i], NULL) != 0)
         	{
 				free_all(diner);
 				return (0);
@@ -33,7 +33,7 @@ int	join_thread_cleanup(t_diner *diner, int thread_array_flag)
 	{
 		while (i < diner->number_of_philosophers)
     	{
-        	if (pthread_join(diner->t_id[i], NULL) != 0)
+        	if (pthread_join(diner->thread_arr[i], NULL) != 0)
         	{
             	free_all(diner);
 				return 0;
@@ -41,7 +41,7 @@ int	join_thread_cleanup(t_diner *diner, int thread_array_flag)
         	i++;
     	}
 
-		if (pthread_join(*diner->monitor, NULL) != 0)
+		if (pthread_join(*diner->monitor_thread, NULL) != 0)
     	{
         	free_all(diner);
 			return 0;

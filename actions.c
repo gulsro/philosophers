@@ -33,11 +33,16 @@ void	eating(t_philo *philo)
 	printf("%ld %d is eating\n", elapsed_time(philo->start_time), philo->id);
 	pthread_mutex_unlock(philo->diner->print);
 	philo->eaten_meals++;
-	philo->must_eat_for_philo--;
+//	philo->must_eat_for_philo--;
 	philo->last_meal_time = get_current_time();
 	usleep(philo->diner->time_to_eat);
+	if (philo->id == philo->diner->number_of_philosophers)
+	{
+		pthread_mutex_unlock(&philo->diner->fork[philo->id] - 1);
+		pthread_mutex_unlock(&philo->diner->fork[0]);
+	}
+	pthread_mutex_unlock(&philo->diner->fork[philo->id - 1]);
 	pthread_mutex_unlock(&philo->diner->fork[philo->id]);
-	pthread_mutex_unlock(&philo->diner->fork[philo->id + 1]);
 }
 
 void	thinking(t_philo *philo)
