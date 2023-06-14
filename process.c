@@ -33,8 +33,8 @@ void    *monitoring(t_philo *philo)
 
 void	*routine(t_philo *philo)
 {
-//	if (philo->id == philo->diner->number_of_philosophers)
-//		sleeping(philo);
+	if (philo->id == philo->diner->number_of_philosophers)
+		sleeping(philo);
 	while (1)
 	{
 		if (philo->diner->stop_simulation == 0)

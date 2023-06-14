@@ -14,7 +14,7 @@ HEADER = philo.h
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g 
 
 OBJ = $(SRC:.c=.o)
 

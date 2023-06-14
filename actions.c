@@ -3,7 +3,7 @@
 void    taking_forks(t_philo *philo)
 {
     if (philo->id % 2 == 1)
-        usleep(50);
+        usleep(200);
     pthread_mutex_lock(&philo->diner->fork[philo->id - 1]);
     pthread_mutex_lock(&philo->diner->fork[philo->id % philo->diner->number_of_philosophers]);
     pthread_mutex_lock(philo->diner->print);

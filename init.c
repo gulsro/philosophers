@@ -63,10 +63,8 @@ static int	init_mutexes(t_philo *philo)
 int	join_threads(t_diner *diner)
 {
 	int	i;
-	pthread_t	*thread_arr;
 
 	i = 0;
-	thread_arr = diner->thread_arr;
 	while (i < diner->number_of_philosophers)
 	{
 		if (pthread_join(diner->thread_arr[i], NULL) != 0)
