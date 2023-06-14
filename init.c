@@ -73,7 +73,7 @@ int	join_threads(t_diner *diner)
 		}
 		i++;
 	}
-	if (pthread_join(*diner->monitor_thread, NULL) != 0)
+	if (pthread_join(diner->monitor_thread, NULL) != 0)
 	{
 		return (0);
 	}
@@ -84,7 +84,9 @@ int	join_threads(t_diner *diner)
 static int	create_threads(t_diner *diner, t_philo *philo)
 {
 	int	i;
+	pthread_t *monitor_thread;
 
+	monitor_thread = &diner->monitor_thread;
 	i = 0;
 	diner->thread_arr = malloc(sizeof(pthread_t) * diner->number_of_philosophers);
 	if (!diner->thread_arr)
@@ -102,13 +104,7 @@ static int	create_threads(t_diner *diner, t_philo *philo)
 		}
 		i++;
 	}
-	diner->monitor_thread = malloc(sizeof(pthread_t));
-	if (!diner->monitor_thread)
-	{
-		free(diner->thread_arr);
-		return (0);
-	}
-	if (pthread_create(diner->monitor_thread, NULL, (void *)monitoring, (void *)philo) != 0)
+	if (pthread_create(monitor_thread, NULL, (void *)monitoring, (void *)philo) != 0)
 	{
 		if (join_thread_cleanup(diner, 0) == 0)
 		{
@@ -140,10 +136,10 @@ void	init_threads_mutex_philo(t_diner *diner)
 		print_error("Pthread_create() is failed\n");
 		return ;
 	}
-	if (join_threads(diner) == 0)
+/*	if (join_threads(diner) == 0)
 	{
 		print_error("Pthread_join() is failed\n");
 		free_all(diner);
 		return ;
-	}
+	}*/
 }

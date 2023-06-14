@@ -41,7 +41,7 @@ int	join_thread_cleanup(t_diner *diner, int thread_array_flag)
         	i++;
     	}
 
-		if (pthread_join(*diner->monitor_thread, NULL) != 0)
+		if (pthread_join(diner->monitor_thread, NULL) != 0)
     	{
         	free_all(diner);
 			return 0;

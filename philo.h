@@ -44,7 +44,7 @@ typedef struct s_diner
 	int	must_eat;
 	int	stop_simulation;
 	pthread_t	*thread_arr;
-	pthread_t	*monitor_thread;
+	pthread_t	monitor_thread;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t *print;
 	t_philo		*philo;

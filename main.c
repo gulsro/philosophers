@@ -17,7 +17,8 @@ int main(int argc, char **argv)
 //	printf("now time = %ld\n", diner->philo[0].start_time);
 //printf("elapsed time = %ld\n", elapsed_time());
 	init_threads_mutex_philo(diner);
-//	printf("start time = %ld\n", diner->philo->start_time);
+	join_threads(diner);
+	//	printf("start time = %ld\n", diner->philo->start_time);
 //	pthread_detach(*diner->monitor_thread);
 //	if (pthread_join(*diner->monitor, NULL) != 0)
 //	{
