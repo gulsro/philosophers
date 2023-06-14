@@ -17,13 +17,8 @@ static t_philo	*init_philo_struct(t_diner *diner)
 		philo[i].diner = diner;
 		philo[i].id = i + 1;
 		philo[i].eaten_meals = 0;
-//		printf("must_eat = %d\n", philo[i].diner->must_eat);
 		philo[i].start_time = now;
-		printf("now: %ld\n", philo[i].start_time);
-//		usleep(50);
-//		printf("slept now: %ld\n", elapsed_time(philo[i].start_time));
 		philo[i].last_meal_time = philo[i].start_time;
-//		philo[i].must_eat_for_philo = diner->must_eat;
 		philo[i].left_fork_id = i + 1;
      		if (philo[i].id == diner->number_of_philosophers)
 		{
@@ -36,8 +31,6 @@ static t_philo	*init_philo_struct(t_diner *diner)
 		philo[i].dead = 0;
 		i++;
 	}
-//	usleep(50);
-//	printf("slept now: %ld\n", elapsed_time(philo[i].start_time));
 	return (philo);
 }
 
@@ -78,12 +71,10 @@ static int	init_mutexes(t_philo *philo)
 int	join_threads(t_diner *diner)
 {
 	int	i;
-//	pthread_t	*thread_arr;
+	pthread_t	*thread_arr;
 
-//	thread_arr = diner->thread_arr;
 	i = 0;
-	if (!diner->thread_arr)
-		return (0);
+	thread_arr = diner->thread_arr;
 	while (i < diner->number_of_philosophers)
 	{
 		if (pthread_join(diner->thread_arr[i], NULL) != 0)
@@ -92,10 +83,10 @@ int	join_threads(t_diner *diner)
 		}
 		i++;
 	}
-/*	if (pthread_join(*diner->monitor_thread, NULL) != 0)
+	if (pthread_join(*diner->monitor_thread, NULL) != 0)
 	{
 		return (0);
-	}*/
+	}
 	return (1);
 }
 
@@ -159,10 +150,10 @@ void	init_threads_mutex_philo(t_diner *diner)
 		print_error("Pthread_create() is failed\n");
 		return ;
 	}
-/*	if (join_threads(diner) == 0)
+	if (join_threads(diner) == 0)
 	{
 		print_error("Pthread_join() is failed\n");
 		free_all(diner);
 		return ;
-	}*/
+	}
 }

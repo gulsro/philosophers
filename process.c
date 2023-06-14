@@ -3,16 +3,20 @@
 //static int      check_philo_dead(t_philo *philo)
 void    *monitoring(t_philo *philo)
 {
-        int     j;
+	int     j;
 
-        while (1)
-        {
-                j = 0;
-                while (j < philo->diner->number_of_philosophers && philo[j].diner->stop_simulation == 0)
-                {
-                        if (philo[j].eaten_meals == philo->diner->must_eat)
+	while (1)
+	{
+		j = 0;
+		while (j < philo->diner->number_of_philosophers && philo[j].diner->stop_simulation == 0)
+		{
+		/*	if (philo[j].eaten_meals == philo->diner->must_eat)
+			{
+				write(1, "NAME\n", 5);
 				philo[j].diner->stop_simulation = 1;
-                	if (get_current_time() - philo[j].last_meal_time > philo->diner->time_to_die)
+				return NULL;
+			}*/
+			if (get_current_time() - philo[j].last_meal_time > philo->diner->time_to_die)
 			{
 				pthread_mutex_lock(philo->diner->print);
 				printf("%ld %d died\n", elapsed_time(philo->start_time), philo[j].id);
@@ -23,8 +27,9 @@ void    *monitoring(t_philo *philo)
 			j++;
 		}
 	}
-        return NULL;
+	return NULL;
 }
+
 /*
 void	*monitoring(t_philo *philo)
 {
@@ -42,32 +47,35 @@ void	*monitoring(t_philo *philo)
 */
 void	*routine(t_philo *philo)
 {
-	if (philo->id == philo->diner->number_of_philosophers)
-		sleeping(philo);
+//	if (philo->id == philo->diner->number_of_philosophers)
+//		sleeping(philo);
 	while (1)
 	{
-	//	if (philo->must_eat_for_philo > 0 || philo->diner->stop_simulation == 0)
+		if (philo->eaten_meal == philo->diner->must_eat)
+		{
+			philo->diner->stop_simulation == 1;
+		}
 		if (philo->diner->stop_simulation == 0)
 		{
 			taking_forks(philo);
+			usleep(50);
 		}
 		if (philo->diner->stop_simulation == 0)
-	//	if (philo->must_eat_for_philo > 0 || philo->diner->stop_simulation == 0)
 		{
 			eating(philo);
 		}
 		if (philo->diner->stop_simulation == 0)
-	//	if (philo->must_eat_for_philo > 0 || philo->diner->stop_simulation == 0)
-		{
-			thinking(philo);
-		}
-		if (philo->diner->stop_simulation == 0)
-		//	if (philo->must_eat_for_philo > 0 || philo->diner->stop_simulation == 0)
 		{
 			sleeping(philo);
 		}
-//		if (philo->diner->stop_simulation == 1 || philo->must_eat_for_philo == 0 || check_philo_dead(philo) == 1)
-		if (philo->diner->stop_simulation == 1)
-			join_threads(philo->diner);
+		if (philo->diner->stop_simulation == 0)
+		{
+			thinking(philo);
+		}
+	/*	if (philo->eaten_meal == philo->diner->must_eat)
+		{
+			philo->diner->stop_simulation == 1;
+		}*/
 	}
+	return 0;
 }

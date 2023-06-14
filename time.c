@@ -2,10 +2,11 @@
 
 long	get_current_time(void)
 {
-	long	time;
 	struct timeval tv;
+	long    time;
+
 	gettimeofday(&tv, NULL);
-	time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+	time = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 	return (time);
 }
 
