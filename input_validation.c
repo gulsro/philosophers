@@ -34,6 +34,7 @@ void    init_arguments(t_diner *diner, int argc, char **argv)
     diner->time_to_die = ft_atoi(argv[2]);
     diner->time_to_eat = ft_atoi(argv[3]);
     diner->time_to_sleep = ft_atoi(argv[4]);
+	diner->stop_simulation = 0;
     if (argc == 6)
         diner->must_eat = ft_atoi(argv[5]);
 }

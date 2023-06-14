@@ -6,7 +6,7 @@
 /*   By: gozturk <marvin@codam.nl>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/07 12:33:19 by gozturk       #+#    #+#                 */
-/*   Updated: 2023/06/09 14:45:27 by gozturk       ########   odam.nl         */
+/*   Updated: 2023/06/14 16:08:35 by gozturk       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_philo
 	long	last_meal_time;
 	int	left_fork_id;
 	int	right_fork_id;
+	int stop;
 	int	dead;
 //	int	must_eat_for_philo;
 	struct s_diner *diner;

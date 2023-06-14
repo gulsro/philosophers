@@ -19,16 +19,8 @@ static t_philo	*init_philo_struct(t_diner *diner)
 		philo[i].eaten_meals = 0;
 		philo[i].start_time = now;
 		philo[i].last_meal_time = philo[i].start_time;
-		philo[i].left_fork_id = i + 1;
-     		if (philo[i].id == diner->number_of_philosophers)
-		{
-			philo[i].right_fork_id = 1;
-		}
-		else
-		{
-			philo[i].right_fork_id = i + 2;
-		}
 		philo[i].dead = 0;
+		philo[i].stop = 0;
 		i++;
 	}
 	return (philo);
