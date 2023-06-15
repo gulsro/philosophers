@@ -19,3 +19,11 @@ long	elapsed_time(long start_time)
 	elapsed_time = current - start_time;
 	return (elapsed_time);
 }
+
+void	sleep_tight(long time)
+{
+	long milisec;
+
+	milisec = time * 1000;
+	usleep(milisec);
+}

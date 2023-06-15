@@ -6,7 +6,7 @@
 /*   By: gozturk <marvin@codam.nl>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/07 12:33:19 by gozturk       #+#    #+#                 */
-/*   Updated: 2023/06/14 16:08:35 by gozturk       ########   odam.nl         */
+/*   Updated: 2023/06/15 18:22:24 by gozturk       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_diner
 //time.c
 long	get_current_time(void);
 long	elapsed_time(long start_time);
+void    sleep_tight(long time);
 
 //input_validation.c
 int		check_validation_and_init_arguments(t_diner *diner, int argc, char **argv);
