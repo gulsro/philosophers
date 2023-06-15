@@ -30,17 +30,51 @@ void    *monitoring(t_philo *philo)
 	return NULL;
 }
 
+void *routine(t_philo *philo)
+{
+    if (philo->id == philo->diner->number_of_philosophers)
+        sleep_tight(philo->diner->time_to_sleep);
 
+    while (1)
+    {
+        if (philo->diner->stop_simulation == 1 || philo->dead == 1)
+            break;
+
+        taking_forks(philo);
+        sleep_tight(50);
+
+        if (philo->diner->stop_simulation == 1 || philo->dead == 1)
+            break;
+
+        eating(philo);
+
+        if (philo->diner->stop_simulation == 1 || philo->dead == 1)
+            break;
+
+        sleeping(philo);
+
+        if (philo->diner->stop_simulation == 1 || philo->dead == 1)
+            break;
+
+        thinking(philo);
+    }
+
+    return NULL;
+}
+
+
+/*
 void	*routine(t_philo *philo)
 {
 	if (philo->id == philo->diner->number_of_philosophers)
-		sleeping(philo);
+		sleep_tight(philo->diner->time_to_sleep);
+		//	sleeping(philo);
 	while (1)
 	{
 		if (philo->diner->stop_simulation == 0)
 		{
 			taking_forks(philo);
-			usleep(50);
+			sleep_tight(50);
 		}
 		if (philo->diner->stop_simulation == 0)
 		{
@@ -60,4 +94,4 @@ void	*routine(t_philo *philo)
 		}
 	}
 	return 0;
-}
+}*/

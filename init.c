@@ -44,7 +44,7 @@ static int	init_mutexes(t_philo *philo)
 		}
 			i++;
 	}
-	philo->diner->print = malloc(sizeof(pthread_mutex_t));
+/*	philo->diner->print = malloc(sizeof(pthread_mutex_t));
 	if (!philo->diner->print)
 	{
 		free(philo->diner->fork);
@@ -55,6 +55,22 @@ static int	init_mutexes(t_philo *philo)
 		destroy_fork_mutex(philo->diner);
 		free(philo->diner->print);
 		return (0);
+	}*/
+	philo->diner->print = malloc(sizeof(pthread_mutex_t) * philo->diner->number_of_philosophers);
+    if (!philo->diner->print)
+    {
+        free(philo->diner->fork);
+        return (0);
+    }
+	while (i < philo->diner->number_of_philosophers)
+	{
+    	if (pthread_mutex_init(&philo->diner->print[i], NULL) != 0)
+    	{
+        	destroy_fork_mutex(philo->diner);
+        	free(philo->diner->print);
+        	return (0);
+		}
+		i++;
 	}
 	return (1);
 }
@@ -73,10 +89,10 @@ int	join_threads(t_diner *diner)
 		}
 		i++;
 	}
-	if (pthread_join(diner->monitor_thread, NULL) != 0)
+/*	if (pthread_join(diner->monitor_thread, NULL) != 0)
 	{
 		return (0);
-	}
+	}*/
 	return (1);
 }
 

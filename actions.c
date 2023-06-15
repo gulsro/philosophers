@@ -2,15 +2,15 @@
 
 void    taking_forks(t_philo *philo)
 {
-	int	left_fork;
-	int	right_fork;
+//	int	left_fork;
+//	int	right_fork;
 
-	left_fork = philo->id - 1;
-	right_fork = philo->id % philo->diner->number_of_philosophers;
+//	left_fork = philo->id - 1;
+//	right_fork = philo->id % philo->diner->number_of_philosophers;
     if (philo->id % 2 == 1)
         usleep(200);
     	
-    	if (left_fork < right_fork)
+  /*  	if (left_fork < right_fork)
 	{
 		pthread_mutex_lock(&philo->diner->fork[left_fork]);
 		pthread_mutex_lock(&philo->diner->fork[right_fork]);
@@ -19,30 +19,28 @@ void    taking_forks(t_philo *philo)
     	{
         	pthread_mutex_lock(&philo->diner->fork[right_fork]);
         	pthread_mutex_lock(&philo->diner->fork[left_fork]);
-   	}
-	// pthread_mutex_lock(&philo->diner->fork[philo->id - 1]);
-   // pthread_mutex_lock(&philo->diner->fork[philo->id % philo->diner->number_of_philosophers]);
+   	}*/
+	pthread_mutex_lock(&philo->diner->fork[philo->id - 1]);
+    pthread_mutex_lock(&philo->diner->fork[philo->id % philo->diner->number_of_philosophers]);
     pthread_mutex_lock(philo->diner->print);
     printf("%ld %d has taken a fork\n", elapsed_time(philo->start_time), philo->id);
-    usleep(50);
     printf("%ld %d has taken a fork\n", elapsed_time(philo->start_time), philo->id);
     pthread_mutex_unlock(philo->diner->print);
 }
 
 void	eating(t_philo *philo)
 {
-	int     left_fork;
-        int     right_fork;
+//	int     left_fork;
+       // int     right_fork;
 
-        left_fork = philo->id - 1;
-        right_fork = philo->id % philo->diner->number_of_philosophers;
+     //   left_fork = philo->id - 1;
+     //   right_fork = philo->id % philo->diner->number_of_philosophers;
 	pthread_mutex_lock(philo->diner->print);
 	printf("%ld %d is eating\n", elapsed_time(philo->start_time), philo->id);
 	pthread_mutex_unlock(philo->diner->print);
 	philo->eaten_meals++;
 //	philo->must_eat_for_philo--;
 	philo->last_meal_time = get_current_time();
-//	usleep(philo->diner->time_to_eat);
 	sleep_tight(philo->diner->time_to_eat);
 	/*	if (philo->id == philo->diner->number_of_philosophers)
 	{
@@ -54,7 +52,7 @@ void	eating(t_philo *philo)
 		pthread_mutex_unlock(&philo->diner->fork[philo->id - 1]);
 		pthread_mutex_unlock(&philo->diner->fork[philo->id]);
 	}*/
-	if (left_fork < right_fork)
+/*	if (left_fork < right_fork)
         {
                 pthread_mutex_unlock(&philo->diner->fork[left_fork]);
                 pthread_mutex_unlock(&philo->diner->fork[right_fork]);
@@ -63,9 +61,9 @@ void	eating(t_philo *philo)
         {
                 pthread_mutex_unlock(&philo->diner->fork[right_fork]);
                 pthread_mutex_unlock(&philo->diner->fork[left_fork]);
-        }
-	/*pthread_mutex_unlock(&philo->diner->fork[philo->id % philo->diner->number_of_philosophers]);
-	pthread_mutex_unlock(&philo->diner->fork[philo->id - 1]);*/
+        }*/
+	pthread_mutex_unlock(&philo->diner->fork[philo->id % philo->diner->number_of_philosophers]);
+	pthread_mutex_unlock(&philo->diner->fork[philo->id - 1]);
 }
 
 void	thinking(t_philo *philo)
