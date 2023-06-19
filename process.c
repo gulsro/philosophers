@@ -9,7 +9,6 @@ void    *monitoring(t_philo *philo)
 		j = 0;
 		while (j < philo->diner->number_of_philosophers && philo[j].stop == 0 && philo[j].dead == 0)
 		{
-		//	write(1, "NAME\n", 5);
 			if (philo[j].eaten_meals == philo->diner->must_eat)
 			{
 //				printf("philo %d stops. %d\n", philo[j].id, philo->diner->number_of_philosophers);
@@ -19,10 +18,11 @@ void    *monitoring(t_philo *philo)
 			{
 				pthread_mutex_lock(philo->diner->print);
 				printf("%ld %d died\n", elapsed_time(philo->start_time), philo[j].id);
-				pthread_mutex_unlock(philo->diner->print);
+		//		pthread_mutex_unlock(philo->diner->print);
 				printf("I AM DEAD\n");
 				philo[j].dead = 1;
-				philo->diner->stop_simulation = 1;
+			//	philo->diner->stop_simulation = 1;
+				pthread_mutex_unlock(philo->diner->print);
 				break ;
 				//	return NULL;
 			}
@@ -33,57 +33,57 @@ void    *monitoring(t_philo *philo)
 			break ;
 	//	printf("SOOO COOOOOL\n");
 	}
+	pthread_mutex_lock(philo->diner->print);
 	philo->diner->stop_simulation = 1;
+	pthread_mutex_unlock(philo->diner->print);
 	return NULL;
 }
 
 void *routine(t_philo *philo)
 {
-    if (philo->id == philo->diner->number_of_philosophers)
-        sleep_tight(philo->diner->time_to_sleep);
+ //   if (philo->id == philo->diner->number_of_philosophers)
+ //       sleep_tight(philo->diner->time_to_sleep);
 
     while (1)
     {
 //		printf("dead is %d\n", philo->dead);
-		printf("before FORKS philo stop is %d\n", philo->stop);
+//	printf("before FORKS philo stop is %d\n", philo->stop);
         if (philo->diner->stop_simulation == 1 || philo->dead == 1)
-		{
-		 	printf("breaK before FORKS %d\n", philo->id);	
-		   	return NULL;
-		}
+	{
+//	 	printf("breaK before FORKS %d\n", philo->id);	
+	   	return NULL;
+	}
         taking_forks(philo);
-	//	printf("do we come here?\n");
-
+//	sleep_tight(100);
 //		printf("dead is %d\n", philo->dead);
-        printf("before EATING philo stop is %d\n", philo->stop);
-		if (philo->diner->stop_simulation == 1 || philo->dead == 1)
-		{
-			printf("breaK before EATING %d\n", philo->id);
-            return NULL;
-		}
-	//	printf("do we come here2?\n");
-        eating(philo);
-	
+  //      printf("before EATING philo stop is %d\n", philo->stop);
+	if (philo->diner->stop_simulation == 1 || philo->dead == 1)
+	{
+//		printf("breaK before EATING %d\n", philo->id);
+		return NULL;
+	}
+		
+	eating(philo);
 //		printf("dead is %d\n", philo->dead);
-		printf("before SLEEPING philo stop is %d\n", philo->stop);
+//	printf("before SLEEPING philo stop is %d\n", philo->stop);
         if (philo->diner->stop_simulation == 1 || philo->dead == 1)
-		{
-			printf("breaK before SLEEPING %d\n", philo->id);
-	 		return NULL;
+	{
+//		printf("breaK before SLEEPING %d\n", philo->id);
+		return NULL;
 	}
 
         sleeping(philo);
 
 //		printf("dead is %d\n", philo->dead);
-		printf("before THINK philo stop is %d\n", philo->stop);
+//	printf("before THINK philo stop is %d\n", philo->stop);
         if (philo->diner->stop_simulation == 1 || philo->dead == 1)
-		{
-		   printf("breaK before THINK %d\n", philo->id);	
-		 	return NULL;
-		}
+	{
+//		printf("breaK before THINK %d\n", philo->id);	
+		return NULL;
+	}
         thinking(philo);
-    }
-
+//	sleep_tight(50);
+    	}
     return NULL;
 }
 
@@ -96,20 +96,20 @@ void	*routine(t_philo *philo)
 		//	sleeping(philo);
 	while (1)
 	{
-		if (philo->diner->stop_simulation == 0)
+		if (philo->diner->stop_simulation == 0 || philo->dead == 0)
 		{
 			taking_forks(philo);
-			sleep_tight(50);
+//			sleep_tight(50);
 		}
-		if (philo->diner->stop_simulation == 0)
+		if (philo->diner->stop_simulation == 0 || philo->dead == 0)
 		{
 			eating(philo);
 		}
-		if (philo->diner->stop_simulation == 0)
+		if (philo->diner->stop_simulation == 0 || philo->dead == 0)
 		{
 			sleeping(philo);
 		}
-		if (philo->diner->stop_simulation == 0)
+		if (philo->diner->stop_simulation == 0 || philo->dead == 0)
 		{
 			thinking(philo);
 		}

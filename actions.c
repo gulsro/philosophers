@@ -3,7 +3,7 @@
 void    taking_forks(t_philo *philo)
 {
     if (philo->id % 2 == 1)
-     	sleep_tight(200);
+     	sleep_tight(10);
 		//   usleep(200);
    // 	printf("a\n");
     //	printf("b\n");
@@ -14,7 +14,7 @@ void    taking_forks(t_philo *philo)
     printf("%ld %d has taken a fork\n", elapsed_time(philo->start_time), philo->id);
     printf("%ld %d has taken a fork\n", elapsed_time(philo->start_time), philo->id);
     //	printf("d\n");
-		sleep_tight(1);
+//	sleep_tight(1);
     //pthread_mutex_unlock(philo->diner->print);
 }
 
@@ -40,6 +40,7 @@ void	thinking(t_philo *philo)
 {
 	pthread_mutex_lock(philo->diner->print);
 	printf("%ld %d is thinking\n", elapsed_time(philo->start_time), philo->id);
+//	sleep_tight(50);
 	pthread_mutex_unlock(philo->diner->print);
 }
 
@@ -47,6 +48,7 @@ void    sleeping(t_philo *philo)
 {
  	pthread_mutex_lock(philo->diner->print);
         printf("%ld %d is sleeping\n", elapsed_time(philo->start_time), philo->id);
-        pthread_mutex_unlock(philo->diner->print);
 	sleep_tight(philo->diner->time_to_sleep);
+        pthread_mutex_unlock(philo->diner->print);
+//	sleep_tight(philo->diner->time_to_sleep);
 }
