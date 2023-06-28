@@ -1,7 +1,7 @@
 #include "philo.h"
 
 // Initializes philo struct --it will be called in init_threads_mutex_philo()
-static t_philo	*init_philo_struct(t_diner *diner)
+static t_philo	*init_philo_struct(t_shared_data *shared_data)
 {
 	t_philo *philo;
 	int	i;
@@ -9,12 +9,12 @@ static t_philo	*init_philo_struct(t_diner *diner)
 
 	i = 0;
 	now = get_current_time();
-	philo = malloc(sizeof(t_philo) * diner->number_of_philosophers);
+	philo = malloc(sizeof(t_philo) * shared_data->number_of_philosophers);
 	if (!philo)
 		return (NULL);
-	while (i < diner->number_of_philosophers)
+	while (i < shared_data->number_of_philosophers)
 	{
-		philo[i].diner = diner;
+		philo[i].shared_data = shared_data;
 		philo[i].id = i + 1;
 		philo[i].eaten_meals = 0;
 		philo[i].start_time = now;
@@ -32,43 +32,43 @@ static int	init_mutexes(t_philo *philo)
 	int	i;
 
 	i = 0;
-	philo->diner->fork = malloc(sizeof(pthread_mutex_t) * philo->diner->number_of_philosophers);
-	if (!philo->diner->fork)
+	philo->shared_data->fork = malloc(sizeof(pthread_mutex_t) * philo->shared_data->number_of_philosophers);
+	if (!philo->shared_data->fork)
 		return (0);
-	while (i < philo->diner->number_of_philosophers)
+	while (i < philo->shared_data->number_of_philosophers)
 	{
-		if (pthread_mutex_init(&philo->diner->fork[i], NULL) != 0)
+		if (pthread_mutex_init(&philo->shared_data->fork[i], NULL) != 0)
 		{
-			free(philo->diner->fork); //IT SHOULD DESTROY THE CREATED FORKS IN THE ARRAY?
+			free(philo->shared_data->fork); //IT SHOULD DESTROY THE CREATED FORKS IN THE ARRAY?
 			return (0);
 		}
 			i++;
 	}
-/*	philo->diner->print = malloc(sizeof(pthread_mutex_t));
-	if (!philo->diner->print)
+/*	philo->shared_data->print = malloc(sizeof(pthread_mutex_t));
+	if (!philo->shared_data->print)
 	{
-		free(philo->diner->fork);
+		free(philo->shared_data->fork);
 		return (0);
 	}
-	if (pthread_mutex_init(philo->diner->print, NULL) != 0)
+	if (pthread_mutex_init(philo->shared_data->print, NULL) != 0)
 	{
-		destroy_fork_mutex(philo->diner);
-		free(philo->diner->print);
+		destroy_fork_mutex(philo->shared_data);
+		free(philo->shared_data->print);
 		return (0);
 	}*/
-	philo->diner->print = malloc(sizeof(pthread_mutex_t) * philo->diner->number_of_philosophers);
-    if (!philo->diner->print)
-    {
-        free(philo->diner->fork);
-        return (0);
-    }
-	while (i < philo->diner->number_of_philosophers)
+	philo->shared_data->print = malloc(sizeof(pthread_mutex_t) * philo->shared_data->number_of_philosophers);
+	if (!philo->shared_data->print)
 	{
-    	if (pthread_mutex_init(&philo->diner->print[i], NULL) != 0)
-    	{
-        	destroy_fork_mutex(philo->diner);
-        	free(philo->diner->print);
-        	return (0);
+		free(philo->shared_data->fork);
+		return (0);
+	}
+	while (i < philo->shared_data->number_of_philosophers)
+	{
+		if (pthread_mutex_init(&philo->shared_data->print[i], NULL) != 0)
+		{
+			destroy_fork_mutex(philo->shared_data);
+			free(philo->shared_data->print);
+			return (0);
 		}
 		i++;
 	}
@@ -76,20 +76,20 @@ static int	init_mutexes(t_philo *philo)
 }
 
 //Joins philo's threads and  monitor_thread thread -- will be called in init_threads_mutex_philo()
-int	join_threads(t_diner *diner)
+int	join_threads(t_shared_data *shared_data)
 {
 	int	i;
 
 	i = 0;
-	while (i < diner->number_of_philosophers)
+	while (i < shared_data->number_of_philosophers)
 	{
-		if (pthread_join(diner->thread_arr[i], NULL) != 0)
+		if (pthread_join(shared_data->thread_arr[i], NULL) != 0)
 		{
 			return (0);
 		}
 		i++;
 	}
-	if (pthread_join(diner->monitor_thread, NULL) != 0)
+	if (pthread_join(shared_data->monitor_thread, NULL) != 0)
 	{
 		return (0);
 	}
@@ -97,24 +97,24 @@ int	join_threads(t_diner *diner)
 }
 
 // Creates threads, philo's array and monitor_thread (a seperated thread for monitor_threading others threads) --it will be called in init_threads_mutex_philo()
-static int	create_threads(t_diner *diner, t_philo *philo)
+static int	create_threads(t_shared_data *shared_data, t_philo *philo)
 {
 	int	i;
 	pthread_t *monitor_thread;
 
-	monitor_thread = &diner->monitor_thread;
+	monitor_thread = &shared_data->monitor_thread;
 	i = 0;
-	diner->thread_arr = malloc(sizeof(pthread_t) * diner->number_of_philosophers);
-	if (!diner->thread_arr)
+	shared_data->thread_arr = malloc(sizeof(pthread_t) * shared_data->number_of_philosophers);
+	if (!shared_data->thread_arr)
 		return (0);
-	while (i < diner->number_of_philosophers)
+	while (i < shared_data->number_of_philosophers)
 	{
-		if (pthread_create(&diner->thread_arr[i], NULL, (void *)routine, (void *)&philo[i]) != 0)
+		if (pthread_create(&shared_data->thread_arr[i], NULL, (void *)routine, (void *)&philo[i]) != 0)
 		{
-			if (join_thread_cleanup(diner, 1) == 0)
+			if (join_thread_cleanup(shared_data, 1) == 0)
 			{
 				print_error("Pthread_join() is failed\n");
-				free(diner->thread_arr);
+				free(shared_data->thread_arr);
 				return (0);
 			}
 		}
@@ -122,40 +122,40 @@ static int	create_threads(t_diner *diner, t_philo *philo)
 	}
 	if (pthread_create(monitor_thread, NULL, (void *)monitoring, (void *)philo) != 0)
 	{
-		if (join_thread_cleanup(diner, 0) == 0)
+		if (join_thread_cleanup(shared_data, 0) == 0)
 		{
 			print_error("Pthread_join() is failed\n");
-			free(diner->thread_arr);
+			free(shared_data->thread_arr);
 			return (0);
 		}
 	}
 	return (1);
 }
 
-void	init_threads_mutex_philo(t_diner *diner)
+void	init_threads_mutex_philo(t_shared_data *shared_data)
 {
 	t_philo *philo;
 
 
-	philo = init_philo_struct(diner);
+	philo = init_philo_struct(shared_data);
 	if (!philo)
 	{
 		print_error("Philo struct can not be created\n");
 		return ;
 	}
 	if (init_mutexes(philo) == 0)
-    	{
-                print_error("Pthread_mutex_init() is failed\n");
-    	}
-	if (create_threads(philo->diner, philo) == 0)
+		{
+				print_error("Pthread_mutex_init() is failed\n");
+		}
+	if (create_threads(philo->shared_data, philo) == 0)
 	{
 		print_error("Pthread_create() is failed\n");
 		return ;
 	}
-	if (join_threads(diner) == 0)
+	if (join_threads(shared_data) == 0)
 	{
 		print_error("Pthread_join() is failed\n");
-		free_all(diner);
+		free_all(shared_data);
 		return ;
 	}
 }

@@ -28,20 +28,20 @@ static int	check_all_digit(char **argv)
 }
 
 // Initializes command line arguments, will be called in check_arguments_valid() right after input validation
-void    init_arguments(t_diner *diner, int argc, char **argv)
+void    init_arguments(t_shared_data *shared_data, int argc, char **argv)
 {
-    diner->number_of_philosophers = ft_atoi(argv[1]);
-    diner->time_to_die = ft_atoi(argv[2]);
-    diner->time_to_eat = ft_atoi(argv[3]);
-    diner->time_to_sleep = ft_atoi(argv[4]);
-	diner->stop_simulation = 0;
+    shared_data->number_of_philosophers = ft_atoi(argv[1]);
+    shared_data->time_to_die = ft_atoi(argv[2]);
+    shared_data->time_to_eat = ft_atoi(argv[3]);
+    shared_data->time_to_sleep = ft_atoi(argv[4]);
+	shared_data->stop_simulation = 0;
     if (argc == 6)
-        diner->must_eat = ft_atoi(argv[5]);
+        shared_data->must_eat = ft_atoi(argv[5]);
 }
 
 
 //This funtion checks if given arguments are digit, is so, inits arguments
-int check_validation_and_init_arguments(t_diner *diner, int argc, char **argv)
+int check_validation_and_init_arguments(t_shared_data *shared_data, int argc, char **argv)
 {
 	if (argc < 5 || argc > 6)
 	{
@@ -53,8 +53,8 @@ int check_validation_and_init_arguments(t_diner *diner, int argc, char **argv)
 		print_error("One or more given arguments are in wrong format\n");
 		return (0);
 	}
-	init_arguments(diner, argc, argv);
-	if (diner->number_of_philosophers < 1)
+	init_arguments(shared_data, argc, argv);
+	if (shared_data->number_of_philosophers < 1)
 	{
 		print_error("There should be at least one philosopher\n");
 		return (0);

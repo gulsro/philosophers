@@ -1,5 +1,7 @@
 --add error msg if neccessary input was not given. (number_of_phlos of time_to_die)
 
---maybe all error handling functions can be combined in a single function (?)
+--structure of the shared_data and philo's is not good, check that out. 
 
---june 1, time schedule for tasks
+--use mutexes on shared_data before accessing it
+
+--if philo 4 dies, it takes the forks immediately.check that out

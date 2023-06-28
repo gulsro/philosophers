@@ -20,8 +20,8 @@ int	ft_atoi(char *str)
 	return ((int)(n));
 }
 /*
-void	one_philosopher(t_diner *diner)
+void	one_philosopher(t_shared_data *shared_data)
 {
-	init_threads_mutex_philo(diner);
+	init_threads_mutex_philo(shared_data);
 	
 }*/

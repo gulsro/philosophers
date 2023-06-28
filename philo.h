@@ -32,10 +32,10 @@ typedef struct s_philo
 	int stop;
 	int	dead;
 //	int	must_eat_for_philo;
-	struct s_diner *diner;
+	struct s_shared_data *shared_data;
 }t_philo;
 
-typedef struct s_diner
+typedef struct s_shared_data
 {
 	int	number_of_philosophers;
 	int	time_to_die;
@@ -48,7 +48,7 @@ typedef struct s_diner
 	pthread_mutex_t	*fork;
 	pthread_mutex_t *print;
 	t_philo		*philo;
-}t_diner;
+}t_shared_data;
 
 //time.c
 long	get_current_time(void);
@@ -56,8 +56,8 @@ long	elapsed_time(long start_time);
 void    sleep_tight(long time);
 
 //input_validation.c
-int		check_validation_and_init_arguments(t_diner *diner, int argc, char **argv);
-void    init_arguments(t_diner *diner, int argc, char **argv);
+int		check_validation_and_init_arguments(t_shared_data *shared_data, int argc, char **argv);
+void    init_arguments(t_shared_data *shared_data, int argc, char **argv);
 
 //utils.c
 int	ft_atoi(char *str);
@@ -66,8 +66,8 @@ int	ft_atoi(char *str);
 void    print_error(char *msg);
 
 //init.c
-void    init_threads_mutex_philo(t_diner *diner);
-int	join_threads(t_diner *diner);
+void    init_threads_mutex_philo(t_shared_data *shared_data);
+int	join_threads(t_shared_data *shared_data);
 
 //actions.c
 void    taking_forks(t_philo *philo);
@@ -76,9 +76,9 @@ void    thinking(t_philo *philo);
 void    sleeping(t_philo *philo);
 
 //destroy.c
-void    free_all(t_diner *diner);
-int join_thread_cleanup(t_diner *diner, int thread_array_flag);
-void    destroy_fork_mutex(t_diner *diner);
+void    free_all(t_shared_data *shared_data);
+int join_thread_cleanup(t_shared_data *shared_data, int thread_array_flag);
+void    destroy_fork_mutex(t_shared_data *shared_data);
 
 //process.c
 void    *monitoring(t_philo *philo);
